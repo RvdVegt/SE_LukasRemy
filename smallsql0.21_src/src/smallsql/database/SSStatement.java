@@ -208,7 +208,7 @@ class SSStatement implements Statement{
 
 
     final public void setFetchDirection(int direction) throws SQLException{
-        checkStatement();
+        //checkStatement();
         fetchDirection = direction;
     }
 
