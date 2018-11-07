@@ -1,4 +1,4 @@
-module \test
+module LOC
 
 import IO;
 import lang::java::m3::Core;
@@ -98,7 +98,7 @@ public list[str] cleanCode(list[str] lines) {
 	return removeBlanks(removeSinglelineComments(removeMultilineComments(lines)));
 }
 
-public int calcVolume(loc project) {
+public int calcVolume(LOC project) {
 	set[loc] files = visibleFiles(project);
 	
 	int total = 0;
