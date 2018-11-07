@@ -98,7 +98,7 @@ public list[str] cleanCode(list[str] lines) {
 	return removeBlanks(removeSinglelineComments(removeMultilineComments(lines)));
 }
 
-public int calcVolume(LOC project) {
+public int calcVolume(loc project) {
 	set[loc] files = visibleFiles(project);
 	
 	int total = 0;
