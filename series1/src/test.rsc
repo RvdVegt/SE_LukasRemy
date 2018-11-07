@@ -6,6 +6,7 @@ import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 import util::FileSystem;
 import List;
+import Set;
 import String;
 
 
@@ -104,19 +105,24 @@ public void temp() {
 	loc testfile = |project://temp/src|;
 	set[loc] files = visibleFiles(smalldb);
 	//println(files);
+	int s = size(files);
+	println("#files: <s>");
 	
 	int total = 0;
 	int oldTotal = 0;
 	
 	for (loc n <- files) {
 		list[str] lines = readFileLines(n);
-		//println(lines);
+		println("<n> <size(lines)>");
 		
 		//list[str] newLines = [l | str l <- lines, !/((\s|\/*)(\/\*|\s\*)|[^\w,\;]\s\/*\/)|^[ \t\r\n]*$/ := l];
 		//println(newLines);
 		
 		list[str] newLines = cleanCode(lines);
 		
+		//for (l <- newLines) {
+		//	println(l);
+		//}
 		oldTotal += size(lines);
 		total += size(newLines);
 	}
