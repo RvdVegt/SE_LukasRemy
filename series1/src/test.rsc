@@ -98,35 +98,15 @@ public list[str] cleanCode(list[str] lines) {
 	return removeBlanks(removeSinglelineComments(removeMultilineComments(lines)));
 }
 
-public void temp() {
-	//myModel = createM3FromEclipseProject(|project://smallsql0.21_src|);
-	//myClasses = classes(myModel);
-	loc smalldb = |project://smallsql0.21_src/src/smallsql/database|;
-	loc testfile = |project://temp/src|;
-	set[loc] files = visibleFiles(smalldb);
-	//println(files);
-	int s = size(files);
-	println("#files: <s>");
+public int calcVolume(loc project) {
+	set[loc] files = visibleFiles(project);
 	
 	int total = 0;
-	int oldTotal = 0;
 	
 	for (loc n <- files) {
 		list[str] lines = readFileLines(n);
-		println("<n> <size(lines)>");
-		
-		//list[str] newLines = [l | str l <- lines, !/((\s|\/*)(\/\*|\s\*)|[^\w,\;]\s\/*\/)|^[ \t\r\n]*$/ := l];
-		//println(newLines);
-		
 		list[str] newLines = cleanCode(lines);
-		
-		//for (l <- newLines) {
-		//	println(l);
-		//}
-		oldTotal += size(lines);
 		total += size(newLines);
 	}
-	println("#lines: <total>");
-	println("Old: <oldTotal>");
-	println("Removed: <oldTotal - total>");
+	return total;
 }
