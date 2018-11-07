@@ -9,8 +9,16 @@ import List;
 import Set;
 import String;
 
+import \test;
+
 public void temp() {
-	loc project = |project://smallsql0.21_src|;
+	loc project = |project://temp/src|;
 	myModel = createM3FromEclipseProject(project);
-	methods = methods(myModel);
+	set[loc] methods = methods(myModel);
+	
+	for (loc f <- methods) {
+		list[str] lines = readFileLines(f);
+		newLines = cleanCode(lines);
+		
+	}
 }

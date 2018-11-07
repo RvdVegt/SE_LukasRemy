@@ -101,7 +101,7 @@ public list[str] cleanCode(list[str] lines) {
 public void temp() {
 	//myModel = createM3FromEclipseProject(|project://smallsql0.21_src|);
 	//myClasses = classes(myModel);
-	loc smalldb = |project://smallsql0.21_src/src/smallsql/database|;
+	loc smalldb = |project://smallsql0.21_src/src|;
 	loc testfile = |project://temp/src|;
 	set[loc] files = visibleFiles(smalldb);
 	//println(files);
@@ -113,7 +113,7 @@ public void temp() {
 	
 	for (loc n <- files) {
 		list[str] lines = readFileLines(n);
-		println("<n> <size(lines)>");
+		//println("<n> <size(lines)>");
 		
 		//list[str] newLines = [l | str l <- lines, !/((\s|\/*)(\/\*|\s\*)|[^\w,\;]\s\/*\/)|^[ \t\r\n]*$/ := l];
 		//println(newLines);
