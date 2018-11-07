@@ -34,7 +34,7 @@ public list[str] removeMultilineComments(list[str] lines) {
 					
 					if (size(allQuotes) > 1) {
 						// There is a second quote, so we can ignore everything before the first quote and until the second.
-						return substring(code, 0, allQuotes[1]) + removeLines(substring(code, allQuotes[1] + 1));
+						return substring(code, 0, allQuotes[1]+1) + removeLines(substring(code, allQuotes[1] + 1));
 					}
 				}
 			}
@@ -79,7 +79,7 @@ public list[str] removeSinglelineComments(list[str] lines) {
 					
 					if (size(allQuotes) > 1) {
 						// Comment is in a quote/string, so we ignore it and look further in the line.
-						return substring(code, 0, allQuotes[1]) + removeLine(substring(code, allQuotes[1] + 1));
+						return substring(code, 0, allQuotes[1]+1) + removeLine(substring(code, allQuotes[1] + 1));
 					}
 				}
 			}
@@ -100,10 +100,13 @@ public list[str] cleanCode(list[str] lines) {
 public void temp() {
 	//myModel = createM3FromEclipseProject(|project://smallsql0.21_src|);
 	//myClasses = classes(myModel);
-	set[loc] files = visibleFiles(|project://smallsql0.21_src/src/smallsql/database|);
+	loc smalldb = |project://smallsql0.21_src/src/smallsql/database|;
+	loc testfile = |project://temp/src|;
+	set[loc] files = visibleFiles(smalldb);
 	//println(files);
 	
 	int total = 0;
+	int oldTotal = 0;
 	
 	for (loc n <- files) {
 		list[str] lines = readFileLines(n);
@@ -113,7 +116,11 @@ public void temp() {
 		//println(newLines);
 		
 		list[str] newLines = cleanCode(lines);
+		
+		oldTotal += size(lines);
 		total += size(newLines);
 	}
 	println("#lines: <total>");
+	println("Old: <oldTotal>");
+	println("Removed: <oldTotal - total>");
 }
