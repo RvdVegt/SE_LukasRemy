@@ -21,6 +21,14 @@ public class car {
 		 * "jferk"*/
 		//hoireturn "Hallo"; //test
 		return/*hoi*/"poep";
+		
+		int x = 5;
+		int y = 5;
+		int f = 5;
+		int b = 5;
+		int c = 5;
+		int d = 5;
+		int e = 5;
 	}
 	
 	public void testMethod2(int x) {
@@ -35,6 +43,12 @@ public class car {
 		else {
 			x = 3;
 		}
+		int y = 5;
+		int f = 5;
+		int b = 5;
+		int c = 5;
+		int d = 5;
+		int e = 5;
 	}
 	
 	
