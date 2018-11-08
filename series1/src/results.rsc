@@ -1,7 +1,8 @@
 module results
 
-import \test;
 import IO;
+import \test;
+import unitComplexity;
 
 //|project://smallsql0.21_src/src/smallsql/database|
 public void testVolume(loc project) {
@@ -25,4 +26,29 @@ public void testVolume(loc project) {
 	}
 	
 	println("Volume: <result>");
+}
+
+public void testComplexity(loc project) {
+	list[int] cc = calcCCproject(project);
+	risk = ccRisk(cc);
+}
+
+private list[int] ccRisk(list[int] cc) {
+	risk = [0,0,0,0];
+	
+	for (x <- cc) {
+		if (x < 11) {
+			risk[0] += 1;
+		}
+		else if (x < 21) {
+			risk[1] += 1;
+		}
+		else if (x < 51) {
+			risk[2] += 1;
+		}
+		else {
+			risk[3] += 1;
+		}
+	}
+	return risk;
 }

@@ -23,6 +23,20 @@ public class car {
 		return/*hoi*/"poep";
 	}
 	
+	public void testMethod2(int x) {
+		if (x > 1) {
+			if (x < 10) {
+				x = 1;
+			}
+		}
+		else if (x > 2) {
+			x = 2;
+		}
+		else {
+			x = 3;
+		}
+	}
+	
 	
 	
 }
