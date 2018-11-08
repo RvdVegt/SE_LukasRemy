@@ -1,12 +1,14 @@
 module unitComplexity
 
+import unitSize;
+
 import IO;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 
 //loc project = |project://temp/src|;
-public list[int] calcCCproject(loc project) {
+public list[tuple[int, int]] calcCCproject(loc project) {
 	ast = createAstsFromEclipseProject(project, false);
 	result = [];
 	
@@ -17,8 +19,9 @@ public list[int] calcCCproject(loc project) {
 	return result;
 }
 
-public int calcCCmethod(Statement method) {
+public tuple[int, int] calcCCmethod(Statement method) {
 	cc = 1;
+	uloc = USLOC(method.src);
 	
 	//The statements that add to the complexity are:
 	//https://pmd.github.io/latest/pmd_java_metrics_index.html#cyclomatic-complexity-cyclo
@@ -42,5 +45,5 @@ public int calcCCmethod(Statement method) {
 		case \infix(_,"||",_): cc += 1;
 	}
 	
-	return cc;
+	return <cc, uloc>;
 }
