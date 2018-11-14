@@ -5,6 +5,7 @@ import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 import util::FileSystem;
+import util::Math;
 import List;
 import Set;
 import String;
@@ -21,35 +22,29 @@ public int USLOC(loc unit) {
 	return size(cleanCode(readFileLines(unit)));
 }
 
-
-public tuple[int low, int mode, int high, int vHigh] USRisks(M3 model) {
+public tuple[int, int, int, int] USRisks(M3 model) {
 	set[loc] methods = methods(model);
-	tuple[int low, int mode, int high, int vHigh] risks;
+	tuple[int, int, int, int] risks = <0, 0, 0, 0>;
 	
 	for (loc f <- methods) {
 		int uloc = USLOC(f);
-		if (uloc <= 15) risks.low += 1;
-		else if (uloc <= 30) risks.mode += 1;
-		else if (uloc <= 60) risks.high += 1;
-		else risks.vHigh += 1;
+		if (uloc <= 15) risks[0] += 1;
+		else if (uloc <= 30) risks[1] += 1;
+		else if (uloc <= 60) risks[2] += 1;
+		else risks[3] += 1;
 	}
 	
 	return risks;
 }
 
-public tuple[int low, int mode, int high, int vHigh] USPercentages(tuple[int low, int mode, int high, int vHigh] risks, int units) {
-	tuple[int low, int mode, int high, int vHigh] riskP;
-	riskP.low = (risks.low / units) * 100;
-	riskP.mode = (risks.mode / units) * 100;
-	riskP.high = (risks.high / units) * 100;
-	riskP.vHigh = (risks.vHigh / units) * 100;
+public tuple[real, real, real, real] USPercentages(tuple[int, int, int, int] risks) {
+	tuple[real, real, real, real] riskP = <0.0, 0.0, 0.0, 0.0>;
+	int units = risks[0] + risks[1] + risks[2] + risks[3];
+	
+	riskP[0] = (toReal(risks[0]) / units) * 100;
+	riskP[1] = (toReal(risks[1]) / units) * 100;
+	riskP[2] = (toReal(risks[2]) / units) * 100;
+	riskP[3] = (toReal(risks[3]) / units) * 100;
 	
 	return riskP;
-}
-
-/*
- * TODO: get percentage thresholds for each rank.
- */
-public str USRanking(tuple[int low, int mode, int high, int vHigh] riskP) {
-	return "";
 }

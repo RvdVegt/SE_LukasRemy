@@ -36,6 +36,24 @@ public tuple[list[tuple[list[str] lines, list[int] indices]] blocks, int lines] 
 	return <blocks, total>;
 }
 
+public void DUPTest(M3 model, int blockSize) {
+	set[loc] methods = methods(model);
+	list[list[str]] blocks = [];
+	for (loc m <- methods) {
+		list[str] lines = [trim(line) | line <- cleanCode(readFileLines(m))];
+		if (size(lines) > blockSize) {
+			for (int i <- upTill(size(lines) - blockSize)) {
+				blocks = blocks + [slice(lines, i+1, blockSize)];
+			}
+		}
+	}
+	
+	int first = size(blocks);
+	int second = size(toSet(blocks));
+	println("<first> - <second>");
+	println((toReal(first-second)/first)*100);
+}
+
 public real DUPPercentage(tuple[list[tuple[list[str] lines, list[int] indices]] blocks, int lines] dups) {
 	mapBlock = toMap(dups.blocks);
 	set[int] dupLines = {};
@@ -47,22 +65,4 @@ public real DUPPercentage(tuple[list[tuple[list[str] lines, list[int] indices]] 
 		}
 	}
 	return (toReal(size(dupLines))/dups.lines)*100;
-}
-
-public void DUPRanking(M3 model, int blockSize) {
-	tuple[list[tuple[list[str] lines, list[int] indices]] blocks, int lines] dups = DUPCreateBlocks(model, blockSize);
-	real dupP = DUPPercentage(dups);
-	println(dupP);
-	
-	if (dupP <= 3) println("++");
-	else if (dupP <= 5) println("+");
-	else if (dupP <= 10) println("o");
-	else if (dupP <= 20) println("-");
-	else println("--");
-}
-
-
-public void DUPLines() {
-	M3 model = createM3FromEclipseProject(|project://smallsql0.21_src/src/database|);
-	DUPRanking(model, 6);
 }
