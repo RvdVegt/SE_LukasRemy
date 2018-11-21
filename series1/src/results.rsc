@@ -2,6 +2,7 @@ module results
 
 import IO;
 import util::Math;
+import DateTime;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
@@ -116,24 +117,17 @@ public tuple[int, real] testDuplication(M3 model, int blockSize) {
 }
 
 public int maintainability(loc project) {
+	datetime startTime = now();
 	M3 model = createM3FromEclipseProject(project);
 	
 	tuple[int, int] volume = testVolume(project);
+	println("VOLUME: <volume[0]> (<volume[1]>)");
+	println();
 	
 	tuple[tuple[int, int, int, int], tuple[real, real, real, real], int] us = testUnitSize(model);
 	tuple[int, int, int, int] usRisk = us[0];
 	tuple[real, real, real, real] usPerc = us[1];
 	int unitSize = us[2];
-	
-	tuple[tuple[int, int, int, int], tuple[real, real, real, real], int] cc = testComplexity(project);
-	tuple[int, int, int, int] ccRisk = cc[0];
-	tuple[real, real, real, real] ccPerc = cc[1];
-	int complexity = cc[2];
-	
-	tuple[int, real] duplication = testDuplication(model, 6);
-	
-	println("VOLUME: <volume[0]> (<volume[1]>)");
-	println();
 	
 	println("UNITSIZE: <unitSize>");
 	println("\t- low risk: <usRisk[0]> (<round(usPerc[0], 0.1)>%)");
@@ -142,6 +136,11 @@ public int maintainability(loc project) {
 	println("\t- very high risk: <usRisk[3]> (<round(usPerc[3], 0.1)>%)");
 	println();
 	
+	tuple[tuple[int, int, int, int], tuple[real, real, real, real], int] cc = testComplexity(project);
+	tuple[int, int, int, int] ccRisk = cc[0];
+	tuple[real, real, real, real] ccPerc = cc[1];
+	int complexity = cc[2];
+	
 	println("COMPLEXITY: <complexity>");
 	println("\t- low risk: <ccRisk[0]> (<round(ccPerc[0], 0.1)>%)");
 	println("\t- moderate risk: <ccRisk[1]> (<round(ccPerc[1], 0.1)>%)");
@@ -149,6 +148,7 @@ public int maintainability(loc project) {
 	println("\t- very high risk: <ccRisk[3]> (<round(ccPerc[3], 0.1)>%)");
 	println();
 	
+	tuple[int, real] duplication = testDuplication(model, 6);	
 	println("DUPLICATION: <duplication[0]> (<round(duplication[1], 0.1)>%)");
 	println();
 	
@@ -162,8 +162,12 @@ public int maintainability(loc project) {
 	println("\t- changeability: <intToScore(changeability)> (<changeability>)");
 	println("\t- testability: <intToScore(testability)> (<testability>)");
 	
+	datetime endTime = now();
+	Duration dur = endTime - startTime;
+	println();
+	println("Duration: <dur.hours>:<dur.minutes>:<dur.seconds>:<dur.milliseconds>");
+	
 	return maintainability;
-
 }
 
 public int analysability(int volume, int duplication, int unitSize) {

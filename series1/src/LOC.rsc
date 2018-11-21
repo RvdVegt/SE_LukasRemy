@@ -37,6 +37,9 @@ public list[str] removeMultilineComments(list[str] lines) {
 						// There is a second quote, so we can ignore everything before the first quote and until the second.
 						return substring(code, 0, allQuotes[1]+1) + removeLines(substring(code, allQuotes[1] + 1));
 					}
+					else {
+						return " ";
+					}
 				}
 			}
 		} else {
@@ -81,6 +84,8 @@ public list[str] removeSinglelineComments(list[str] lines) {
 					if (size(allQuotes) > 1) {
 						// Comment is in a quote/string, so we ignore it and look further in the line.
 						return substring(code, 0, allQuotes[1]+1) + removeLine(substring(code, allQuotes[1] + 1));
+					} else {
+						return " ";
 					}
 				}
 			}
