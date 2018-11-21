@@ -17,21 +17,11 @@ public tuple[int, int] testVolume(loc project) {
 	int count = calcVolume(project);
 	int result;
 	
-	if (count < 66000) {
-		result = 5;
-	}
-	else if (count < 246000) {
-		result = 4;
-	}
-	else if (count < 665000) {
-		result = 3;
-	}
-	else if (count < 1310000) {
-		result = 2;
-	}
-	else {
-		result = 1;
-	}
+	if (count < 66000) result = 5;
+	else if (count < 246000) result = 4;
+	else if (count < 665000) result = 3;
+	else if (count < 1310000) result = 2;
+	else result = 1;
 	
 	return <result, count>;
 }
@@ -101,10 +91,10 @@ private tuple[int, int, int, int] ccRisk(list[tuple[int, int]] cc) {
 	return risk;
 }
 
-public tuple[int, real] testDuplication(M3 model, int blockSize) {
+public tuple[int, real] testDuplication(loc project, int blockSize) {
 	int result;
 
-	tuple[list[tuple[list[str] lines, list[int] indices]] blocks, int lines] dups = DUPCreateBlocks(model, blockSize);
+	tuple[list[tuple[list[str] lines, list[int] indices]] blocks, int lines] dups = DUPCreateBlocks(project, blockSize);
 	real dupP = DUPPercentage(dups);
 	
 	if (dupP <= 3) result = 5;
@@ -148,7 +138,7 @@ public int maintainability(loc project) {
 	println("\t- very high risk: <ccRisk[3]> (<round(ccPerc[3], 0.1)>%)");
 	println();
 	
-	tuple[int, real] duplication = testDuplication(model, 6);	
+	tuple[int, real] duplication = testDuplication(project, 6);	
 	println("DUPLICATION: <duplication[0]> (<round(duplication[1], 0.1)>%)");
 	println();
 	
@@ -165,7 +155,7 @@ public int maintainability(loc project) {
 	datetime endTime = now();
 	Duration dur = endTime - startTime;
 	println();
-	println("Duration: <dur.hours>:<dur.minutes>:<dur.seconds>:<dur.milliseconds>");
+	println("Duration: <dur.hours>h <dur.minutes>m <dur.seconds>s <dur.milliseconds>ms");
 	
 	return maintainability;
 }

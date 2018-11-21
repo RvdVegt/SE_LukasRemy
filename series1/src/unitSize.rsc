@@ -28,6 +28,7 @@ public tuple[int, int, int, int] USRisks(M3 model) {
 	
 	for (loc f <- methods) {
 		int uloc = USLOC(f);
+		
 		if (uloc <= 15) risks[0] += uloc;
 		else if (uloc <= 30) risks[1] += uloc;
 		else if (uloc <= 60) risks[2] += uloc;
