@@ -111,7 +111,7 @@ public int maintainability(loc project) {
 	M3 model = createM3FromEclipseProject(project);
 	
 	tuple[int, int] volume = testVolume(project);
-	println("VOLUME: <volume[0]> (<volume[1]>)");
+	println("VOLUME: <intToScore(volume[0])> (<volume[1]>)");
 	println();
 	
 	tuple[tuple[int, int, int, int], tuple[real, real, real, real], int] us = testUnitSize(model);
@@ -119,7 +119,7 @@ public int maintainability(loc project) {
 	tuple[real, real, real, real] usPerc = us[1];
 	int unitSize = us[2];
 	
-	println("UNITSIZE: <unitSize>");
+	println("UNITSIZE: <intToScore(unitSize)>");
 	println("\t- low risk: <usRisk[0]> (<round(usPerc[0], 0.1)>%)");
 	println("\t- moderate risk: <usRisk[1]> (<round(usPerc[1], 0.1)>%)");
 	println("\t- high risk: <usRisk[2]> (<round(usPerc[2], 0.1)>%)");
@@ -131,7 +131,7 @@ public int maintainability(loc project) {
 	tuple[real, real, real, real] ccPerc = cc[1];
 	int complexity = cc[2];
 	
-	println("COMPLEXITY: <complexity>");
+	println("COMPLEXITY: <intToScore(complexity)>");
 	println("\t- low risk: <ccRisk[0]> (<round(ccPerc[0], 0.1)>%)");
 	println("\t- moderate risk: <ccRisk[1]> (<round(ccPerc[1], 0.1)>%)");
 	println("\t- high risk: <ccRisk[2]> (<round(ccPerc[2], 0.1)>%)");
@@ -139,7 +139,7 @@ public int maintainability(loc project) {
 	println();
 	
 	tuple[int, real] duplication = testDuplication(project, 6);	
-	println("DUPLICATION: <duplication[0]> (<round(duplication[1], 0.1)>%)");
+	println("DUPLICATION: <intToScore(duplication[0])> (<round(duplication[1], 0.1)>%)");
 	println();
 	
 	int analysability = analysability(volume[0], duplication[0], unitSize);
