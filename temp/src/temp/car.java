@@ -2,6 +2,10 @@ package temp;
 
 import java.sql.*;
 
+enum Day {
+	SUNDAY, MONDAY, TUESDAY
+}
+
 public class car {
 	public String name;
 	
