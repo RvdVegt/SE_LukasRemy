@@ -15,6 +15,74 @@ import String;
 // https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=738528
 
 // |project://temp/src|
+// |project://smallsql0.21_src/src|
+
+void testing() {
+	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
+	list[node] subtrees = getAllSubtrees(ast);
+	
+	map[int, list[tuple[node, loc]]] buckets = ();
+	set[int] keys = {};
+	
+	for (node subtree <- subtrees) {
+		int key = nodeMass(subtree);
+		if (key > 5) {
+			if (buckets[key]?) {
+				buckets[key] += <unsetRec(subtree), fileLocation(subtree)>;
+			}
+			else {
+				buckets[key] = [<unsetRec(subtree), fileLocation(subtree)>];
+			}
+		
+			keys += key;
+		}
+	}
+	
+	list[list[tuple[node, loc]]] cloneclasses = [];
+	for (key <- keys) {
+		cloneclasses += compare(buckets[key]);
+	}
+	
+	for (i <- cloneclasses) {
+		println(i);
+		println("");
+	}
+	
+	/*
+	int big2 = 0;
+	loc t2;
+	for (i <- cloneclasses) {
+		int tmp = nodeMass(i[0][0]);
+		if (big2 < tmp) {
+			t2 = i[0][1];
+			big2 = tmp;
+		}
+	}
+	println(big2);
+	println(t2);*/
+}
+
+list[list[tuple[node, loc]]] compare(list[tuple[node, loc]] bucket) {
+	list[list[tuple[node, loc]]] cloneclasses = [];
+	list[tuple[node, loc]] testedNodes = [last(bucket)];
+	for (subtree <- bucket) {
+		if (!(subtree in testedNodes)) {
+			testedNodes += subtree;
+			list[tuple[node, loc]] clones = [subtree];
+			for (int i <- [indexOf(bucket, subtree)+1..size(bucket)]) {
+				if (subtree[0] == bucket[i][0]) {
+					clones += bucket[i];
+					testedNodes += bucket[i];
+				}
+			}
+			
+			if (size(clones) > 1) {
+				cloneclasses += [clones];
+			}
+		}
+	}
+	return cloneclasses;
+}
 
 int nodeMass(node n) {
 	int count = 0;
@@ -105,6 +173,7 @@ map[int, node] parOfChild = ();
 /*
 	This function adds all children and their parent to the map parOfChild.
 */
+/*
 void setChildParent(node n) {
 	int parID = n.ID;
 	children = getChildren(n);
@@ -123,7 +192,7 @@ void setChildParent(node n) {
 		}
 	}
 }
-
+*/
 /*
 	This function adds an unique identifier to each node starting from given node/ast.
 */
@@ -144,7 +213,7 @@ node setIdentifiers(node ast) {
 }
 
 
-
+/*
 void testf(loc project) {
 	set[Declaration] ast = createAstsFromEclipseProject(project, false);
 	set[Delcaration] newAst = setIdentifiers(ast);
@@ -153,7 +222,7 @@ void testf(loc project) {
 		case Declaration n: println(n.ID);
 	}
 }
-
+*/
 
 
 
