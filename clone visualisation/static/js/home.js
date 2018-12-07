@@ -52,7 +52,7 @@ $(document).ready(function() {
 
         $(this).siblings("[data-order]").attr("data-order", "0");
         $(this).siblings("[data-order]").find("span").html("-");
-
+        console.log("hoi");
         $.ajax({
             url: "/dupfilesort",
             type: "get",

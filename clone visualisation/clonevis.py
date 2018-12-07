@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, json, request
 from operator import itemgetter
 import sys
 import os
-import requests
 
 global clonedata
 
@@ -34,7 +33,7 @@ def dupfilesort():
     if revarg == "true": reverse = True;
     else: reverse = False;
 
-    clonedata["files"] = sorted(clonedata["files"], key=lambda k: k["dupsize"]/k["volume"], reverse=reverse)
+    clonedata["files"] = sorted(clonedata["files"], key=lambda k: float(k["dupsize"])/k["volume"], reverse=reverse)
     return render_template("filelist.html", data=clonedata)
 
 if __name__ == "__main__":
