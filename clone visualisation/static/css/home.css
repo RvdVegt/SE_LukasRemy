@@ -1,0 +1,92 @@
+#header {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 128px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#content {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 640px;
+    position: relative;
+}
+
+#footer {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 96px;
+    position: relative;
+}
+
+#scrollfiles {
+    overflow: auto;
+    white-space: nowrap;
+    height: 100%;
+}
+
+div.file {
+    width: 128px;
+    display: inline-block;
+    border-style: solid;
+    border-color: #333399;
+    border-width: 2px;
+}
+
+div.filename {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #333399;
+    width: 100%;
+    padding: 6px;
+}
+
+div.file:hover .filename {
+    background-color: #3399FF;
+}
+
+div.line {
+    background-color: white;
+    width: 100%;
+}
+
+div.dupset {
+    background-color: #3366CC;
+}
+
+div.sort {
+    display: inline-block;
+}
+
+div.sortoptions {
+    display: inline-block;
+    width: 96px;
+}
+
+div.sortoption {
+    color: black;
+    text-align: left;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    padding: 6px 3px;
+    height: 32px;
+}
+
+div.sortoption:hover {
+    background-color: #3399FF;
+}
+
+div.sortoption.active {
+    color: #FFFFFF;
+    background-color: #3366CC;
+}
+
+div.sortoption.active:hover {
+    background-color: #3399FF;
+}

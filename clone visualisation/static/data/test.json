@@ -1,0 +1,77 @@
+{
+    "files": [
+        {
+            "name": "file 1",
+            "dupsize": 8,
+            "volume": 104,
+            "linesets": [
+                {
+                    "duplicate": false,
+                    "linemass": 64
+                },
+                {
+                    "duplicate": true,
+                    "linemass": 8
+                },
+                {
+                    "duplicate": false,
+                    "linemass": 32
+                }
+            ]
+        },
+        {
+            "name": "file 2",
+            "dupsize": 56,
+            "volume": 312,
+            "linesets": [
+                {
+                    "duplicate": true,
+                    "linemass": 48
+                },
+                {
+                    "duplicate": false,
+                    "linemass": 32
+                },
+                {
+                    "duplicate": true,
+                    "linemass": 8
+                },
+                {
+                    "duplicate": false,
+                    "linemass": 224
+                }
+            ]
+        },
+        {
+            "name": "file 3",
+            "dupsize": 32,
+            "volume": 40,
+            "linesets": [
+                {
+                    "duplicate": false,
+                    "linemass": 3
+                },
+                {
+                    "duplicate": true,
+                    "linemass": 12
+                },
+                {
+                    "duplicate": false,
+                    "linemass": 3
+                },
+                {
+                    "duplicate": true,
+                    "linemass": 14
+                },
+                {
+                    "duplicate": false,
+                    "linemass": 2
+                },
+                {
+                    "duplicate": true,
+                    "linemass": 6
+                }
+            ]
+        }
+    ]
+}
