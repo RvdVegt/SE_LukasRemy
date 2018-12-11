@@ -1,9 +1,9 @@
 {% if data: %}
-    {% for f in data["files"] %}
-        <div class="file">
-            <div class="filename">{{ f["name"] }}</div>
+    {% for k, v in data["files"].items() %}
+        <div class="file" onclick='location.href="file?filepath={{k}}"'>
+            <div class="filename">{% if k|length > 30 %}{{ k[0:15] }}.....{{ k[-15:] }}{% else %}{{ k }}{% endif %}</div>
             <div class="filelines">
-            {% for l in f["linesets"] %}
+            {% for l in v["linesets"] %}
                 <div class="line{% if l['duplicate']%} dupset{% endif %}" style="height:{{ l['linemass'] }}px;"></div>
             {% endfor %}
             </div>
