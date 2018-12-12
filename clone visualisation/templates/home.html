@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+
+<!-- Optional theme -->
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}">
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/home.css')}}">
+</head>
+
+<body>
+    <div id="header">
+        <div class="sort">
+            <div class="sorttext">SORT BY:</div>
+            <div class="sortoptions"> 
+                <div id="dupsort" class="sortoption" data-order="1">dup <span id="dupsortorder" style="float:right;">-</span></div>
+                <div id="dupfilesort" class="sortoption" data-order="1">dup/line <span id="dupfilesortorder" style="float:right">-</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+        <div id="scrollfiles">
+            {% include 'filelist.html' %}
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="scrollclasses">
+            {% include 'classlist.html' %}
+        </div>
+    </div>
+
+<script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+<!--<script src="{{url_for('static', filename='data/test.json')}}"></script>-->
+<script src="{{url_for('static', filename='js/home.js')}}"></script>
+
+</body>
+
+</html> 

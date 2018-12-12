@@ -1,0 +1,111 @@
+{
+    "files": {
+        "/home/remy/Documents/SE/SE_LukasRemy/clone visualisation/test.java": {
+            "dupsize": 8,
+            "volume": 70,
+            "linesets": [
+                {
+                    "linestart": 1,
+                    "duplicate": false,
+                    "linemass": 10
+                },
+                {
+                    "linestart": 11,
+                    "duplicate": true,
+                    "linemass": 8,
+                    "classID": "1"
+                },
+                {
+                    "linestart": 19,
+                    "duplicate": false,
+                    "linemass": 8
+                },
+                {
+                    "linestart": 27,
+                    "duplicate": true,
+                    "linemass": 6,
+                    "classID": "2"
+                },
+                {
+                    "linestart": 33,
+                    "duplicate": false,
+                    "linemass": 38
+                }
+            ]
+        },
+        "file 2": {
+            "dupsize": 56,
+            "volume": 312,
+            "linesets": [
+                {
+                    "linestart": 1,
+                    "duplicate": true,
+                    "linemass": 48
+                },
+                {
+                    "linestart": 49,
+                    "duplicate": false,
+                    "linemass": 32
+                },
+                {
+                    "linestart": 81,
+                    "duplicate": true,
+                    "linemass": 8,
+                    "classID": "1"
+                },
+                {
+                    "linestart": 89,
+                    "duplicate": false,
+                    "linemass": 224
+                }
+            ]
+        },
+        "file 3" : {
+            "dupsize": 32,
+            "volume": 40,
+            "linesets": [
+                {
+                    "linestart": 1,
+                    "duplicate": false,
+                    "linemass": 3
+                },
+                {
+                    "linestart": 4,
+                    "duplicate": true,
+                    "linemass": 12
+                },
+                {
+                    "linestart": 16,
+                    "duplicate": false,
+                    "linemass": 3
+                },
+                {
+                    "linestart": 19,
+                    "duplicate": true,
+                    "linemass": 14
+                },
+                {
+                    "linestart": 33,
+                    "duplicate": false,
+                    "linemass": 2
+                },
+                {
+                    "linestart": 35,
+                    "duplicate": true,
+                    "linemass": 6,
+                    "classID": "2"
+                }
+            ]
+        }
+    },
+    "classes": {
+        "1": {
+            "files": [["/home/remy/Documents/SE/SE_LukasRemy/clone visualisation/test.java", 1], ["file 2", 2]],
+            "linemass": 8
+        },
+        "2": {
+            "files": [["/home/remy/Documents/SE/SE_LukasRemy/clone visualisation/test.java", 3], ["file 3", 5]],
+            "linemass": 6
+        }
+    }
+}

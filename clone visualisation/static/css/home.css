@@ -1,0 +1,207 @@
+#header {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 128px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#content {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 640px;
+    position: relative;
+}
+
+#footer {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    height: 640px;
+    position: relative;
+}
+
+/* File list CSS */
+#scrollfiles {
+    overflow: auto;
+    white-space: nowrap;
+    height: 100%;
+}
+
+div.file {
+    width: 256px;
+    display: inline-block;
+    border-style: solid;
+    border-color: #333399;
+    border-width: 2px;
+    vertical-align: top;
+    white-space: normal;
+}
+
+div.filename {
+    color: white;
+    text-align: center;
+    background-color: #333399;
+    width: 100%;
+    padding: 6px;
+    word-wrap: break-word;
+}
+
+div.file:hover .filename {
+    background-color: #3399FF;
+}
+
+div.line {
+    background-color: white;
+    width: 100%;
+}
+
+div.dupset {
+    background-color: #3366CC;
+    color: #FFF;
+}
+
+/* Sort options CSS */
+div.sort {
+    display: inline-block;
+}
+
+div.sortoptions {
+    display: inline-block;
+    width: 96px;
+}
+
+div.sortoption {
+    color: black;
+    text-align: left;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    padding: 6px 3px;
+    height: 32px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+div.sortoption:hover {
+    background-color: #3399FF;
+}
+
+div.sortoption.active {
+    border-right-style: solid;
+    border-right-color: #333399;
+    border-right-width: 8px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+div.sortoption.active:hover {
+    background-color: #3399FF;
+}
+
+/* Class list CSS */
+#scrollclasses {
+    overflow: auto;
+    white-space: nowrap;
+    height: 100%;
+}
+
+div.class {
+    width: 256px;
+    display: inline-block;
+    border-style: solid;
+    border-color: #333399;
+    border-width: 1px;
+}
+
+div.classsize {
+    padding: 6px;
+}
+
+div.classfilecount {
+    padding: 6px;
+}
+
+div.classfiles {
+    padding: 6px;
+}
+
+div.classfile {
+    border-top-style: solid;
+    border-top-color: #333399;
+    border-top-width: 1px;
+    padding: 6px;
+    white-space: normal;
+}
+
+div.classfile:hover {
+    background-color: #3399FF;
+    color: #FFF;
+}
+
+div.classfilename {
+    word-wrap: break-word;
+}
+
+div.classfilelines {
+
+}
+
+/* Source code CSS */
+div.srcline {
+
+}
+
+div.srcline:hover {
+    background-color: #3399FF;
+    color: #fff;
+}
+
+div.srclineno {
+    width: 32px;
+    display: inline-block;
+    text-align: center;
+    border-right-style: solid;
+    border-right-width: 1px;
+
+}
+
+div.srclinecode {
+    display: inline-block;
+    padding-left: 4px;
+    white-space: pre;
+}
+
+/* Source code tooltip CSS */
+div.srcblock {
+    text-decoration: none;
+    position: relative;
+}
+
+div.srcblock .srctooltip {
+    display: none;
+    background-color: rgba(85,85,85,0.6);
+    color: #FFF;
+    text-align: center;
+    padding: 6px 6px;
+    border-radius: 6px;
+    z-index: 1;
+    min-width: 320px;
+    min-height: 128px;
+    max-width: 384px;
+}
+
+div.srcblock:hover .srctooltip {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+}
+
+div.srctooltipfile {
+    border-style: solid none;
+    border-color: #FFF none;
+    border-width: 1px;
+    padding: 3px;
+}

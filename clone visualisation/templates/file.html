@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+
+<!-- Optional theme -->
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap-theme.min.css')}}">
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/home.css')}}">
+</head>
+
+<body>
+    <div class="srccode">
+    {% for b in data["files"][filename]["linesets"] %}
+        <div class="srcblock">
+            {% for l in range(b["linestart"], (b["linestart"]+b["linemass"])) %}
+            <div class="srcline{% if b['duplicate']%} dupset{% endif %}">
+                <div class="srclineno">{{ l }}</div>
+                <div class="srclinecode">{{ filesrc[l-1] }}</div>
+            </div>
+            {% endfor %}
+            <div class="srctooltip">
+                <div>
+                    <b>{% if b['duplicate']%} DUPLICATE CODE {% else %} GOOD CODE {% endif %}</b>
+                </div>
+                {% if b['duplicate'] %}
+                <div class="srctooltipfiles">
+                    {% for f in data["classes"][b["classID"]]["files"] %}
+                    {% if f[0] != filename %}
+                    <div class="srctooltipfile">
+                        <div class="srctooltipfilename">{{ f[0] }}</div>
+                        <div class="srctooltipfilelines"><b>Lines: {{ data["files"][f[0]]["linesets"][f[1]]["linestart"] }}-{{ data["files"][f[0]]["linesets"][f[1]]["linestart"]+data["files"][f[0]]["linesets"][f[1]]["linemass"] - 1 }}</b></div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+<script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+<!--<script src="{{url_for('static', filename='data/test.json')}}"></script>-->
+<script src="{{url_for('static', filename='js/home.js')}}"></script>
+
+</body>
+
+</html> 
