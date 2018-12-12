@@ -10,7 +10,11 @@ import List;
 import Set;
 import Map;
 import String;
+import DateTime;
+import util::Resources;
+import util::Math;
 
+int cast(int x) = x;
 // Type 3: see Levensteins algorithm
 // https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=738528
 
@@ -18,11 +22,11 @@ import String;
 // |project://smallsql0.21_src/src|
 
 void testing() {
+	datetime startTime = now();
 	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
 	list[node] subtrees = getAllSubtrees(ast);
 	
 	map[int, list[tuple[node, loc]]] buckets = ();
-	set[int] keys = {};
 	
 	for (node subtree <- subtrees) {
 		int key = nodeMass(subtree);
@@ -33,20 +37,52 @@ void testing() {
 			else {
 				buckets[key] = [<unsetRec(subtree), fileLocation(subtree)>];
 			}
-		
-			keys += key;
 		}
 	}
 	
 	list[list[tuple[node, loc]]] cloneclasses = [];
+	map[str, list[list[int]]] childDup = ();
+	list[int] keys = reverse(sort(buckets<0>));
+	
 	for (key <- keys) {
-		cloneclasses += compare(buckets[key]);
+		list[list[tuple[node, loc]]] cc = compare(buckets[key], childDup);
+		
+		for (clonec <- cc) {
+			for (clone <- clonec) {
+				if (clone[1] != |noLocation:///|) {
+					if (childDup[clone[1].path]?) {
+						childDup[clone[1].path] += [[clone[1].begin.line, clone[1].end.line,
+													clone[1].begin.column, clone[1].end.column]];
+					}
+					else {
+						childDup[clone[1].path] = [[clone[1].begin.line, clone[1].end.line,
+													clone[1].begin.column, clone[1].end.column]];
+					}
+				}
+			}
+		}
+		
+		cloneclasses += cc;
+		
 	}
 	
+	//map[str, list[tuple[loc, str]]] jsonFormat = betterFormat(cloneclasses);
+	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
+	println(jsonFormat[0]);
+	println();
+	println(jsonFormat[1]);
+	
+	/*
 	for (i <- cloneclasses) {
 		println(i);
 		println("");
-	}
+	}*/
+	//println(size(cloneclasses));
+	
+	datetime endTime = now();
+	Duration dur = endTime - startTime;
+	println();
+	println("Duration: <dur.hours>h <dur.minutes>m <dur.seconds>s <dur.milliseconds>ms");
 	
 	/*
 	int big2 = 0;
@@ -61,12 +97,69 @@ void testing() {
 	println(big2);
 	println(t2);*/
 }
+//tuple[map[str, value], 
+tuple[map[str, value], map[str, value]] betterFormat(list[list[tuple[node, loc]]] cloneclasses) {
+	num ID = 0;
+	map[str, tuple[int, int, list[map[str, value]]]] jsonFormat1 = ();
+	map[str, tuple[list[tuple[str, int]], int]] jsonFormat2 = ();
+	
+	for (list[tuple[node, loc]] class <- cloneclasses) {
+		for (tuple[node, loc] dup <- class) {
+			if (jsonFormat1[location(dup[1]).path]?) {
+				jsonFormat1[location(dup[1]).path][0] += dup[1].end.line - dup[1].begin.line + 1;
+				map[str, value] d = ();
+				d["linestart"] = dup[1].begin.line;
+				d["linemass"] = dup[1].end.line - dup[1].begin.line + 1;
+				d["classID"] = "<ID>";
+				jsonFormat1[location(dup[1]).path][2] += [d];
+			}
+			else {
+				jsonFormat1[location(dup[1]).path] = <0, 0, []>;
+				jsonFormat1[location(dup[1]).path][0] = dup[1].end.line - dup[1].begin.line + 1;
+				jsonFormat1[location(dup[1]).path][1] = size(readFileLines(location(dup[1])));
+				map[str, value] d = ();
+				d["linestart"] = dup[1].begin.line;
+				d["linemass"] = dup[1].end.line - dup[1].begin.line + 1;
+				d["classID"] = "<ID>";
+				jsonFormat1[location(dup[1]).path][2] = [d];
+			}
+			
+			if (jsonFormat2["<ID>"]?) {
+				jsonFormat2["<ID>"][0] += [<location(dup[1]).path, size(jsonFormat1[location(dup[1]).path][2])-1>];
+			}
+			else {
+				jsonFormat2["<ID>"] = <[], 0>;
+				jsonFormat2["<ID>"][0] = [<location(dup[1]).path, size(jsonFormat1[location(dup[1]).path][2])-1>];
+				jsonFormat2["<ID>"][1] = dup[1].end.line - dup[1].begin.line + 1;
+			}
+		}
+		ID += 1;
+	}
+	return <jsonFormat1, jsonFormat2>;
+}
 
-list[list[tuple[node, loc]]] compare(list[tuple[node, loc]] bucket) {
+list[list[tuple[node, loc]]] compare(list[tuple[node, loc]] bucket, map[str, list[list[int]]] childDup) {
 	list[list[tuple[node, loc]]] cloneclasses = [];
 	list[tuple[node, loc]] testedNodes = [last(bucket)];
+	
+	bool haveToCheck = true;
 	for (subtree <- bucket) {
-		if (!(subtree in testedNodes)) {
+		haveToCheck = true;
+		if (subtree[1] != |noLocation:///|) {
+			if (childDup[subtree[1].path]?) {
+				coords = childDup[subtree[1].path];
+				for (i <- coords) {
+					if (i[0] < subtree[1].begin.line && i[1] >= subtree[1].end.line) {
+						haveToCheck = false;
+					}
+					else if (i[0] == subtree[1].begin.line && i[2] < subtree[1].begin.column) {
+						haveToCheck = false;
+					}
+				}
+			}
+		}
+	
+		if (!(subtree in testedNodes) && haveToCheck) {
 			testedNodes += subtree;
 			list[tuple[node, loc]] clones = [subtree];
 			for (int i <- [indexOf(bucket, subtree)+1..size(bucket)]) {
