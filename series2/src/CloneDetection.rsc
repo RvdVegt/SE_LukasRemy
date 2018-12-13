@@ -14,6 +14,7 @@ import DateTime;
 import util::Resources;
 import util::Math;
 import lang::json::IO;
+import Type;
 
 alias sequence = tuple[list[node], list[loc]];
 alias sequences = list[sequence];
@@ -75,7 +76,7 @@ public void testing(loc project) {
 	for (int k <- buckets) {
 		for (int l <- buckets[k]) {
 			if (size(buckets[k][l]) <= 1) continue;
-			println("(<k>, <l>) - <size(buckets[k][l])>");
+			//println("(<k>, <l>) - <size(buckets[k][l])>");
 			clonepairs pairs = pairSequences(buckets[k][l]);
 			for (clonepair pair <- pairs) {
 				if (isEmpty(classes)) {
@@ -85,8 +86,8 @@ public void testing(loc project) {
 				
 				for (int c <- [0..size(classes)]) {
 					if (any(x <- pair, x in classes[c])) {
-						classes[c] += pair[0];
-						classes[c] += pair[1];
+						classes[c] += {pair[0]};
+						classes[c] += {pair[1]};
 						break;
 					}
 					if (c == size(classes)-1) {
@@ -97,6 +98,10 @@ public void testing(loc project) {
 		}
 	}
 	
+	for (cloneclass c <- classes) {
+		println(c);
+		println();
+	}
 	println(size(classes));
 	
 
@@ -127,12 +132,12 @@ clonepairs pairSequences(sequences bucket) {
 sequences subsequencesFromStmts(list[Statement] n) {
 	sequences res = [];
 	
-	for (int i <- [0..max(size(n)-5, 0)]) {
-		for (int j <- [i+5..size(n)]) {
-			res += [<nodes, locs> | seq := slice(n, i, j-i+1),
-									nodes := [unsetRec(s) | s <- seq],
-									locs := [fileLocation(s) | s <- seq]];
-		}
+	for (int i <- [0..max(size(n)-1, 0)]) {
+		//for (int j <- [i+9..size(n)]) {
+		res += [<nodes, locs> | seq := slice(n, i, 2),
+								nodes := [unsetRec(s) | s <- seq],
+								locs := [fileLocation(s) | s <- seq]];
+		//}
 	}
 	
 	return res;
