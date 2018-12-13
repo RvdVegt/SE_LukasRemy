@@ -98,10 +98,6 @@ public void testing(loc project) {
 	}
 	
 	println(size(classes));
-	for (cloneclass c <- classes) {
-		println(c);
-		println();
-	}
 	
 
 	datetime endTime = now();
