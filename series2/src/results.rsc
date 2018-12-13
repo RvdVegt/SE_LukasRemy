@@ -13,6 +13,7 @@ import String;
 import DateTime;
 import util::Resources;
 import util::Math;
+import lang::json::IO;
 
 int cast(int x) = x;
 // Type 3: see Levensteins algorithm
@@ -72,6 +73,10 @@ void testing() {
 	println();
 	println(jsonFormat[1]);
 	*/
+
+	map[str, value] res = ("files":jsonFormat[0], "classes":jsonFormat[1]);
+	writeJSON(|project://series2/src/firstjson.json|, res);
+	
 	/*
 	for (i <- cloneclasses) {
 		println(i);
