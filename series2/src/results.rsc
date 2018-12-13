@@ -23,7 +23,7 @@ int cast(int x) = x;
 
 void testing() {
 	datetime startTime = now();
-	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
+	set[Declaration] ast = createAstsFromEclipseProject(|project://smallsql0.21_src/src|, false);
 	list[node] subtrees = getAllSubtrees(ast);
 	
 	map[int, list[tuple[node, loc]]] buckets = ();
@@ -66,18 +66,18 @@ void testing() {
 		
 	}
 	
-	//map[str, list[tuple[loc, str]]] jsonFormat = betterFormat(cloneclasses);
+	/*
 	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
 	println(jsonFormat[0]);
 	println();
 	println(jsonFormat[1]);
-	
+	*/
 	/*
 	for (i <- cloneclasses) {
 		println(i);
 		println("");
 	}*/
-	//println(size(cloneclasses));
+	println(size(cloneclasses));
 	
 	datetime endTime = now();
 	Duration dur = endTime - startTime;
@@ -97,7 +97,16 @@ void testing() {
 	println(big2);
 	println(t2);*/
 }
-//tuple[map[str, value], 
+
+
+//loop through all cloneclasses, take the first dup and check with all duplication out other cloneclasses
+//if it is following the dup, then check if this holds for all dups in the two cloneclasses, fast check same size
+/*list[list[tuple[node, loc]]] findSequence(list[list[tuple[node, loc]]] cloneclasses) {
+	for (class <- clone) {
+	
+	} 
+}*/
+
 tuple[map[str, value], map[str, value]] betterFormat(list[list[tuple[node, loc]]] cloneclasses) {
 	num ID = 0;
 	map[str, tuple[int, int, list[map[str, value]]]] jsonFormat1 = ();
