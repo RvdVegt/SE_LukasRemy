@@ -24,7 +24,7 @@ def dupsort():
     if revarg == "true": reverse = True;
     else: reverse = False;
 
-    data["files"] = OrderedDict(sorted(clonedata["files"].items(), key=lambda x: x[1]["dupsize"], reverse=reverse))
+    data["files"] = OrderedDict(sorted(clonedata["files"].items(), key=lambda x: x[1][0], reverse=reverse))
     return render_template("filelist.html", data=data)
 
 @app.route("/dupfilesort")
@@ -36,7 +36,7 @@ def dupfilesort():
     if revarg == "true": reverse = True;
     else: reverse = False;
 
-    data["files"] = OrderedDict(sorted(clonedata["files"].items(), key=lambda (k,v): float(v["dupsize"])/v["volume"], reverse=reverse))
+    data["files"] = OrderedDict(sorted(clonedata["files"].items(), key=lambda (k,v): float(v[0])/v[1], reverse=reverse))
     return render_template("filelist.html", data=data)
 
 @app.route("/file")
@@ -49,7 +49,7 @@ def showfile():
     return render_template("file.html", filename=fileLoc, filesrc=fileSrc, data=clonedata)
 
 if __name__ == "__main__":
-    json_url = os.path.join(app.root_path, "static/data", "test.json")
+    json_url = os.path.join(app.root_path, "static/data", "firstjson.json")
     with open(json_url) as jf:
         global clonedata
         clonedata = json.load(jf)

@@ -14,34 +14,57 @@
 </head>
 
 <body>
+    <div class="srcdupheader" id="srcdupheader">
+        
+    </div>
+    {% set vars = {"lineno": 1} %}
     <div class="srccode">
-    {% for b in data["files"][filename]["linesets"] %}
+    {% for b in data["files"][filename][2] | sort(attribute="linestart") %}
+        {% if b["linestart"] > vars.lineno %}
+            <div class="srcblock">
+            {% for l in range(vars.lineno, b["linestart"]) %}
+                <div class="srcline">
+                    <div class="srclineno">{{ l }}</div>
+                    <div class="srclinecode">{{ filesrc[l-1] }}</div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+
         <div class="srcblock">
             {% for l in range(b["linestart"], (b["linestart"]+b["linemass"])) %}
-            <div class="srcline{% if b['duplicate']%} dupset{% endif %}">
+            <div class="srcline dupset">
                 <div class="srclineno">{{ l }}</div>
                 <div class="srclinecode">{{ filesrc[l-1] }}</div>
             </div>
             {% endfor %}
             <div class="srctooltip">
                 <div>
-                    <b>{% if b['duplicate']%} DUPLICATE CODE {% else %} GOOD CODE {% endif %}</b>
+                    <b>DUPLICATE CODE</b>
                 </div>
-                {% if b['duplicate'] %}
                 <div class="srctooltipfiles">
-                    {% for f in data["classes"][b["classID"]]["files"] %}
-                    {% if f[0] != filename %}
+                    {% for f in data["classes"][b["classID"]][0] %}
                     <div class="srctooltipfile">
                         <div class="srctooltipfilename">{{ f[0] }}</div>
-                        <div class="srctooltipfilelines"><b>Lines: {{ data["files"][f[0]]["linesets"][f[1]]["linestart"] }}-{{ data["files"][f[0]]["linesets"][f[1]]["linestart"]+data["files"][f[0]]["linesets"][f[1]]["linemass"] - 1 }}</b></div>
+                        <div class="srctooltipfilelines"><b>Lines: {{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"] - 1 }}</b></div>
                     </div>
-                    {% endif %}
                     {% endfor %}
                 </div>
-                {% endif %}
             </div>
         </div>
+        {% if vars.update({"lineno": (b["linestart"] + b["linemass"])}) %}{% endif %}
     {% endfor %}
+
+    {% if data["files"][filename][1] > vars.lineno %}
+        <div class="srcblock">
+            {% for l in range(vars.lineno, data["files"][filename][1]+1) %}
+            <div class="srcline">
+                <div class="srclineno">{{ l }}</div>
+                <div class="srclinecode">{{ filesrc[l-1] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     </div>
 
 <script src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>

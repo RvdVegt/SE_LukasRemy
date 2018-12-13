@@ -205,3 +205,22 @@ div.srctooltipfile {
     border-width: 1px;
     padding: 3px;
 }
+
+/* Source code dup header CSS */
+div.srcdupheader {
+    min-height: 128px;
+    padding: 10px 16px;
+    background: #333399;
+    color: #FFF;
+    z-index: 2;
+}
+
+div.stickyheader {
+    position: fixed;
+    top: 0;
+    width:100%;
+}
+
+div.stickyheader + .srccode {
+    padding-top: 102px;
+}

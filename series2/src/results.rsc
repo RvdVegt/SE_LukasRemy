@@ -13,6 +13,7 @@ import String;
 import DateTime;
 import util::Resources;
 import util::Math;
+import lang::json::IO;
 
 int cast(int x) = x;
 // Type 3: see Levensteins algorithm
@@ -23,7 +24,7 @@ int cast(int x) = x;
 
 void testing() {
 	datetime startTime = now();
-	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
+	set[Declaration] ast = createAstsFromEclipseProject(|project://smallsql0.21_src/src|, false);
 	list[node] subtrees = getAllSubtrees(ast);
 	
 	map[int, list[tuple[node, loc]]] buckets = ();
@@ -71,6 +72,9 @@ void testing() {
 	println(jsonFormat[0]);
 	println();
 	println(jsonFormat[1]);
+	map[str, value] res = ("files":jsonFormat[0], "classes":jsonFormat[1]);
+	
+	writeJSON(|project://series2/src/firstjson.json|, res);
 	
 	/*
 	for (i <- cloneclasses) {

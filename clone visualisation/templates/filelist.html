@@ -3,9 +3,17 @@
         <div class="file" onclick='location.href="file?filepath={{k}}"'>
             <div class="filename">{% if k|length > 30 %}{{ k[0:15] }}.....{{ k[-15:] }}{% else %}{{ k }}{% endif %}</div>
             <div class="filelines">
-            {% for l in v["linesets"] %}
-                <div class="line{% if l['duplicate']%} dupset{% endif %}" style="height:{{ l['linemass'] }}px;"></div>
+            {% set vars = {"lineno": 1} %}
+            {% for l in v[2] | sort(attribute="linestart") %}
+                {% if l["linestart"] > vars.lineno %}
+                <div class="line" style="height:{{ l['linestart'] - vars.lineno }}px;"></div>
+                {% endif %}
+                <div class="line dupset" style="height:{{ l['linemass'] }}px;"></div>
+                {% if vars.update({"lineno": (l["linestart"] + l["linemass"])}) %}{% endif %}
             {% endfor %}
+            {% if v[1] > vars.lineno %}
+                <div class="line" style="height:{{ v[1] - vars.lineno + 1 }}px;"></div>
+            {% endif %}
             </div>
         </div>
     {% endfor%}

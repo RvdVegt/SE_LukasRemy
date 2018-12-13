@@ -1,4 +1,4 @@
-module results
+module remyversion
 
 import IO;
 import lang::java::m3::Core;
@@ -12,6 +12,7 @@ import Set;
 import Map;
 import String;
 import Prelude;
+import util::Math;
 
 anno int Statement @ uniqueId;
 anno int Declaration @ uniqueId;
@@ -142,9 +143,9 @@ public sequences subsequencesFromStmt(list[Statement] n) {
 		return [];
 	}
 	
-	for (int s1 <- [0..size(n)-4]) {
-		for (int s2 <- [s1+4..size(n)]) {
-			sublist += [<nodes, locs> | s := slice(n, s1, s2-s1+1),
+	for (int s1 <- [0..size(n)-min(6, size(n))]) {
+		for (int s2 <- [0..min(6, size(n))]) {
+			sublist += [<nodes, locs> | s := slice(n, s1, s2),
 										nodes := [unsetRec(i) | i <- s],
 										locs := [fileLocation(i) | i <- s]];
 		}
@@ -170,9 +171,9 @@ public sequences subsequencesFromDecl(list[Declaration] n) {
 		return [];
 	}
 	
-	for (int s1 <- [0..size(n)]) {
-		for (int s2 <- [s1..size(n)]) {
-			sublist += [<nodes, locs> | s := slice(n, s1, s2-s1+1),
+	for (int s1 <- [0..size(n)-min(1, size(n))]) {
+		for (int s2 <- [0..min(1, size(n))]) {
+			sublist += [<nodes, locs> | s := slice(n, s1, s2+1),
 										nodes := [unsetRec(i) | i <- s],
 										locs := [fileLocation(i) | i <- s]];
 		}
