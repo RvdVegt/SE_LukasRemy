@@ -38,6 +38,7 @@
                 <div class="srclinecode">{{ filesrc[l-1] }}</div>
             </div>
             {% endfor %}
+
             <div class="srctooltip">
                 <div>
                     <b>DUPLICATE CODE</b>
@@ -45,7 +46,7 @@
                 <div class="srctooltipfiles">
                     {% for f in data["classes"][b["classID"]][0] %}
                     <div class="srctooltipfile">
-                        <div class="srctooltipfilename">{{ f[0] }}</div>
+                        <div class="srctooltipfilename">{% if f[0]|length > 25 %}{{ f[0][0:10] }}.....{{ f[0][-10:] }}{% else %}{{ f[0] }}{% endif %}</div>
                         <div class="srctooltipfilelines"><b>Lines: {{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"] - 1 }}</b></div>
                     </div>
                     {% endfor %}

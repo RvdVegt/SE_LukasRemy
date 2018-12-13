@@ -114,6 +114,7 @@ div.class {
     border-style: solid;
     border-color: #333399;
     border-width: 1px;
+    vertical-align: top;
 }
 
 div.classsize {
@@ -207,6 +208,10 @@ div.srctooltipfile {
 }
 
 /* Source code dup header CSS */
+#srcdupheader {
+
+}
+
 div.srcdupheader {
     min-height: 128px;
     padding: 10px 16px;

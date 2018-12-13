@@ -24,7 +24,7 @@ int cast(int x) = x;
 
 void testing() {
 	datetime startTime = now();
-	set[Declaration] ast = createAstsFromEclipseProject(|project://smallsql0.21_src/src|, false);
+	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
 	list[node] subtrees = getAllSubtrees(ast);
 	
 	map[int, list[tuple[node, loc]]] buckets = ();
@@ -67,8 +67,9 @@ void testing() {
 		
 	}
 	
-	/*
+	
 	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
+	/*
 	println(jsonFormat[0]);
 	println();
 	println(jsonFormat[1]);

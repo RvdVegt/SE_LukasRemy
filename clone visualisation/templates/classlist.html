@@ -6,7 +6,7 @@
             <div class="classfiles"><b>Files:</b>
             {% for f in c[0] %}
                 <div class="classfile" onclick='location.href="file?filepath={{f[0]}}"'>
-                    <div class="classfilename">{% if f[0]|length > 30 %}{{ f[0][0:15] }}.....{{ f[0][-15:] }}{% else %}{{ f[0] }}{% endif %}</div>
+                    <div class="classfilename">{% if f[0]|length > 25 %}{{ f[0][0:10] }}.....{{ f[0][-10:] }}{% else %}{{ f[0] }}{% endif %}</div>
                     <div class="classfilelines"><b>Lines: </b>{{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"]-1 }}</div>
                 </div>
             {% endfor %}
