@@ -14,6 +14,12 @@ public class car {
 		System.out.println("hallo /* hfjfe */ // daarzo!"); /* jjenfjnew */
 		int x = 5;
 		
+		int y = 5;
+		int f = 5;
+		int b = 5;
+		int c = 5;
+		int d = 5;
+		int e = 5;
 		if (x > 1) {
 			if (x < 10) {
 				x = 1;
@@ -25,12 +31,6 @@ public class car {
 		else {
 			x = 3;
 		}
-		int y = 5;
-		int f = 5;
-		int b = 5;
-		int c = 5;
-		int d = 5;
-		int e = 5;
 		
 		// comment!!!!
 		/*
@@ -43,6 +43,13 @@ public class car {
 	public String testMethod(String... a) {
 		int x=0;
 		
+		
+		int y = 5;
+		int f = 5;
+		int b = 5;
+		int c = 5;
+		int d = 5;
+		int e = 5;
 		if (x > 1) {
 			if (x < 10) {
 				x = 1;
@@ -54,21 +61,42 @@ public class car {
 		else {
 			x = 3;
 		}
-		int y = 5;
-		int f = 5;
-		int b = 5;
-		int c = 5;
-		int d = 5;
-		int e = 5;
 		
 		return "hoi";
 	}
 	
+	/**
+	 * 
+	 * test fewfew
+	 * few
+	 * fw
+	 * ef
+	 * we
+	 * fwe
+	 * fwefwef
+	 * wef
+	 * wef
+	 * @return
+	 */
 	int abc() {
 		int x = 3;
 		return 5;
 	}
 	
+	/**
+	 * ht
+	 * jy
+	 * j
+	 * tj
+	 * 
+	 * rehg
+	 * rtht
+	 * hb
+	 * trhe
+	 * er
+	 * 
+	 * @return
+	 */
 	int abc() {
 		int x = 3;
 		return 5;

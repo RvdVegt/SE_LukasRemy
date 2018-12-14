@@ -152,7 +152,8 @@ div.classfilelines {
 
 /* Source code CSS */
 div.srcline {
-
+    max-width: 100vw;
+    overflow: hidden;
 }
 
 div.srcline:hover {
@@ -161,18 +162,20 @@ div.srcline:hover {
 }
 
 div.srclineno {
-    width: 32px;
-    display: inline-block;
-    text-align: center;
-    border-right-style: solid;
-    border-right-width: 1px;
+    width: 3vw;
+    text-align: right;
+    padding: 0 3px;
+    float: left;
 
 }
 
 div.srclinecode {
-    display: inline-block;
     padding-left: 4px;
-    white-space: pre;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: hidden;
+    border-left-style: solid;
+    border-left-width: 1px;
 }
 
 /* Source code tooltip CSS */

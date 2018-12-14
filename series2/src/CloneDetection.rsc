@@ -87,15 +87,17 @@ public void testing(loc project) {
 	// We have all clone pairs. Now we sequence all those pairs until we get the biggest possible sequence.
 	println("Sequencing clone pairs");
 	list[clonepair] checkedPairs = [];
-
-	while(true) {
-		clonepair pair = pairs[0];
-		if (pair in checkedPairs) {
-			break;
-		}
-		
-		bool single = (size(pair[0]) == 1);
+	pairs = sort(pairs, bool(clonepair a, clonepair b) { return head(a[0]).begin.line < head(b[0]).begin.line || head(a[1]).begin.line < head(b[1]).begin.line; });
+	int i = 0;
+	while(i < size(pairs)) {
 		bool changed = false;
+		clonepair pair = pairs[0];
+		bool before = false;
+		bool after = false;
+		if (size(pair[0]) == 1) {
+			before = true;
+			after = true;
+		}
 		
 		// If a pair is a single statement/decl, we need to check the line before and after.
 		// For pairs of a bigger size we can simple check the head and tail of other pairs.
@@ -110,67 +112,92 @@ public void testing(loc project) {
 			dups[p1file] = {};
 		}
 		
-		if (head(pair[0]).begin.line in dups[p0file]) {
-			pairs = delete(pairs, 0); continue;
-		}
-		if (head(pair[1]).begin.line in dups[p1file]) {
-			pairs = delete(pairs, 0); continue;
+		if (head(pair[0]).begin.line in dups[p0file] && last(pair[0]).end.line in dups[p0file] && head(pair[1]).begin.line in dups[p1file] && last(pair[1]).end.line in dups[p1file]) {
+			pairs = delete(pairs, 0); i += 1; continue;
 		}
 		
-		list[int] pairsToRemove = [];
-		for (int j <- [1..size(pairs)]) {
-			clonepair pair2 = pairs[j];
-			
-			if (single) {
+		int t = 0;
+		while (true) {
+			bool pairDone = false;
+			list[int] pairsToRemove = [];
+			for (int j <- [i..size(pairs)]) {
+				clonepair pair2 = pairs[j];
+				
 				// pair is a single statement/decl, so we need to check the next or previous line to find a sequence.
-				if (pair[0][0].path == head(pair2[0]).path && pair[1][0].path == head(pair2[1]).path && pair[0][0].end.line+1 == head(pair2[0]).begin.line && pair[1][0].end.line+1 == head(pair2[1]).begin.line) {
-					pair[0] += pair2[0];
-					pair[1] += pair2[1];
+				if (after && head(pair[0]).path == head(pair2[0]).path && pair[1][0].path == head(pair2[1]).path && last(pair[0]).end.line+1 == head(pair2[0]).begin.line && last(pair[1]).end.line+1 == head(pair2[1]).begin.line) {
+					pair[0] = pair[0] + pair2[0];
+					pair[1] = pair[1] + pair2[1];
 					pairsToRemove += j;
 					changed  = true;
-					single = false;
+					pairDone = true;
+					after = false;
 				}
-				else if (pair[0][0].path == head(pair2[1]).path && pair[1][0].path == head(pair2[0]).path && pair[0][0].end.line+1 == head(pair2[1]).begin.line && pair[1][0].end.line+1 == head(pair2[0]).begin.line) {
-					pair[0] += pair2[1];
-					pair[1] += pair2[0];
+				else if (after && head(pair[0]).path == head(pair2[1]).path && pair[1][0].path == head(pair2[0]).path && last(pair[0]).end.line+1 == head(pair2[1]).begin.line && last(pair[1]).end.line+1 == head(pair2[0]).begin.line) {
+					pair[0] = pair[0] + pair2[1];
+					pair[1] = pair[1] + pair2[0];
 					pairsToRemove += j;
 					changed  = true;
-					single = false;
+					pairDone = true;
+					after = false;
 				}
-				else if (pair[0][0].path == head(pair2[0]).path && pair[1][0].path == head(pair2[1]).path && pair[0][0].begin.line-1 == last(pair2[0]).end.line && pair[1][0].begin.line-1 == last(pair2[1]).end.line) {
+				else if (before && head(pair[0]).path == head(pair2[0]).path && pair[1][0].path == head(pair2[1]).path && head(pair[0]).begin.line-1 == last(pair2[0]).end.line && head(pair[1]).begin.line-1 == last(pair2[1]).end.line) {
 					pair[0] = pair2[0] + pair[0];
 					pair[1] = pair2[1] + pair[1];
 					changed = true;
+					pairDone = true;
 					pairsToRemove += j;
-					single = false;
+					before = false;
 				}
-				else if (pair[0][0].path == head(pair2[1]).path && pair[1][0].path == head(pair2[0]).path && pair[0][0].begin.line-1 == last(pair2[1]).end.line && pair[1][0].begin.line-1 == last(pair2[0]).end.line) {
+				else if (before && head(pair[0]).path == head(pair2[1]).path && pair[1][0].path == head(pair2[0]).path && head(pair[0]).begin.line-1 == last(pair2[1]).end.line && head(pair[1]).begin.line-1 == last(pair2[0]).end.line) {
 					pair[0] = pair2[1] + pair[0];
 					pair[1] = pair2[0] + pair[1];
 					changed = true;
+					pairDone = true;
 					pairsToRemove += j;
-					single = false;
+					before = false;
+				}
+				else if (!after && last(pair[0]) == head(pair2[0]) && last(pair[1]) == head(pair2[1])) {
+					// We've found 2 pairs that can be sequenced together.
+					pair[0] = pair[0] + [last(pair2[0])];
+					pair[1] = pair[1] + [last(pair2[1])];
+					pairsToRemove += j;
+					changed = true;
+					pairDone = true;
+				}
+				else if (!after && last(pair[0]) == head(pair2[1]) && last(pair[1]) == head(pair2[0])) {
+					pair[0] = pair[0] + [last(pair2[1])];
+					pair[1] = pair[1] + [last(pair2[0])];
+					pairsToRemove += j;
+					changed = true;
+					pairDone = true;
+				}
+				else if (!before && head(pair[0]) == last(pair2[0]) && head(pair[1]) == last(pair2[1])) {
+					// We've found 2 pairs that can be sequenced together.
+					pair[0] = [head(pair2[0])] + pair[0];
+					pair[1] = [head(pair2[1])] + pair[1];
+					pairsToRemove += j;
+					changed = true;
+					pairDone = true;
+				}
+				else if (!before && head(pair[0]) == last(pair2[1]) && head(pair[1]) == last(pair2[0])) {
+					pair[0] = [head(pair2[1])] + pair[0];
+					pair[1] = [head(pair2[0])] + pair[1];
+					pairsToRemove += j;
+					changed = true;
+					pairDone = true;
 				}
 			}
-			else if ((last(pair[0]) == head(pair2[0]) && last(pair[1]) == head(pair2[1]))) {
-				// We've found 2 pairs that can be sequenced together.
-				pair[0] += [last(pair2[0])];
-				pair[1] += [last(pair2[1])];
-				pairsToRemove += j;
-				changed = true;
+			
+			pairsToRemove = pairsToRemove;
+			// Remove all used pairs that are already part of a sequence, so we dont compare them later on.
+			for (int j <- [0..size(pairsToRemove)]) {
+				pairs = delete(pairs, pairsToRemove[j]-j);
 			}
-			else if (last(pair[0]) == head(pair2[1]) && last(pair[1]) == head(pair2[0])) {
-				pair[0] += [last(pair2[1])];
-				pair[1] += [last(pair2[0])];
-				pairsToRemove += j;
-				changed = true;
+			println("(<size(pairs)>) <i> - <t>");
+			t += 1;
+			if (!pairDone) {
+				break;
 			}
-		}
-		
-		pairsToRemove = pairsToRemove;
-		// Remove all used pairs that are already part of a sequence, so we dont compare them later on.
-		for (int j <- [0..size(pairsToRemove)]) {
-			pairs = delete(pairs, pairsToRemove[j]-j);
 		}
 		
 		dups[location(head(pair[0]))] += toSet([head(pair[0]).begin.line..last(pair[0]).end.line+1]);
@@ -183,6 +210,7 @@ public void testing(loc project) {
 		}
 		pairs += pair;
 		pairs = delete(pairs, 0);
+		i += 1;
 	}
 	/*
 	println("Removing encapsulated pairs.");
@@ -282,6 +310,7 @@ public void testing(loc project) {
 	// We have pairs with their largest consecutive sequence, so now we need to make classes of those pairs.
 	println("Making clone classes");
 	for (clonepair p <- pairs) {
+		if (last(p[0]).end.line - head(p[0]).begin.line < 2) continue; // Skipping pairs with less than 3 lines.
 		if (isEmpty(classes)) {
 			classes += {p[0], p[1]};
 			continue;
