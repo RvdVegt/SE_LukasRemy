@@ -28,7 +28,7 @@ alias classloc = list[set[list[loc]]];
 
 // |project://smallsql0.21_src/src|
 // |project://temp/src|
-public void testing(loc project) {
+public tuple[int, int] testing(loc project) {
 	datetime startTime = now();
 	set[Declaration] ast = createAstsFromEclipseProject(project, false);
 	map[int, map[int, sequences]] buckets = ();
@@ -424,6 +424,8 @@ public void testing(loc project) {
 	Duration dur = endTime - startTime;
 	println();
 	println("Duration: <dur.hours>h <dur.minutes>m <dur.seconds>s <dur.milliseconds>ms");
+	
+	return <size(classes), duplines>;
 }
 
 
