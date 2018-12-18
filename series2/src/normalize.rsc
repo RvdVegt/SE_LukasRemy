@@ -14,16 +14,16 @@ public node normalizeNode(node ast) {
 		case \method(a, _, list[Declaration] b, c, d) => \method(a, "Method", b, c, d)
 		case \method(a, _, list[Declaration] b, c) => \method(a, "Method", b, c)
 		//case \typeParameter(_, a) => \typeParameter("X", a)
-		//case \parameter(a, _, b) => \parameter(a, "X", b) 
-		//case \vararg(a, _) => \vararg(a, "X")
+		case \parameter(a, _, b) => \parameter(a, "X", b) 
+		case \vararg(a, _) => \vararg(a, "X")
 		
 		// Expressions:
 		case \cast(_, a) => \cast(lang::java::jdt::m3::AST::short(), a)
 		case \characterLiteral(_) => \characterLiteral("Char")
-		//case \fieldAccess(a, b, _) => \fieldAccess(a, b, "FA")
-		//case \fieldAccess(a, _) => \fieldAccess(a, "FA")
-		//case \methodCall(a, b, _, c) => \methodCall(a, b, "MC", c)
-		//case \methodCall(a, _, b) => \methodCall(a, "MC", b)
+		case \fieldAccess(a, b, _) => \fieldAccess(a, b, "FA")
+		case \fieldAccess(a, _) => \fieldAccess(a, "FA")
+		case \methodCall(a, b, _, c) => \methodCall(a, b, "MC", c)
+		case \methodCall(a, _, b) => \methodCall(a, "MC", b)
 		case \number(_) => \number("0")
 		case \booleanLiteral(_) => \booleanLiteral(true)
 		case \stringLiteral(_) => \stringLiteral("String")
@@ -37,10 +37,8 @@ public node normalizeNode(node ast) {
 	}
 }
 
-public void testnorm(loc project) {
-	set[Declaration] ast = createAstsFromEclipseProject(project, true);
-	newAst = visit(ast) {
+public set[Declaration] normalizeAST(set[Declaration] ast) {
+	return visit(ast) {
 		case node n => normalizeNode(n)
 	}
-	println(newAst);
 }
