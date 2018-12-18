@@ -26,8 +26,6 @@ alias cloneclass = set[list[loc]];
 alias cloneclasses = list[cloneclass];
 alias classloc = list[set[list[loc]]];
 
-// |project://smallsql0.21_src/src|
-// |project://temp/src|
 public void testing(loc project, int clonetype) {
 	datetime startTime = now();
 	set[Declaration] ast = createAstsFromEclipseProject(project, false);
@@ -106,7 +104,7 @@ public void testing(loc project, int clonetype) {
 		if (!dups[p[1][0].path]?) {
 			dups[p[1][0].path] = {};
 		}
-		//if (p[0][-1].end.line - p[0][0].begin.line < 2 || p[1][-1].end.line - p[1][0].begin.line < 2) continue; // Skipping pairs with less than 3 lines.
+		
 		if (isEmpty(classes)) {
 			classes += {p[0], p[1]};
 			continue;
@@ -188,7 +186,7 @@ public void testing(loc project, int clonetype) {
 						list[loc] s2 = class2[p2];
 						
 						if (s[-1] == s2[0]) {
-							// These sequences can be merged in a new class (s + s2[1:])
+							// s + s2[1:]
 							newclass = newclass + [s + slice(s2, 1, size(s2)-1)];
 							break;
 						}
@@ -227,11 +225,9 @@ public void testing(loc project, int clonetype) {
 		print("<((c+1)*100)/size(newclasses)>%\r");
 	}
 	println();
-	//println(newclasses);
+
 	int duplines = 0;
 	for (list[list[loc]] cl <- newnewclasses) {
-		//println(c);
-		//println();
 		for (list[loc] l <- cl) {
 			duplines += (l[-1].end.line - l[0].begin.line + 1);
 		}
@@ -244,14 +240,12 @@ public void testing(loc project, int clonetype) {
 		total += size(readFileLines(n));
 	}
 	
+	println();
 	println("Classes: <size(newnewclasses)>");
 	println("Duplicate lines: <duplines> (<(duplines*100)/total>%)");
 	
 	
-	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(newclasses); 
-	//println(jsonFormat[0]);
-	//println();
-	//println(jsonFormat[1]);
+	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(newclasses);
 	
 
 	map[str, value] res = ("clonetype":clonetype, "totlines":total, "duplines":duplines, "dupperc":(duplines*100)/total, "totclasses":size(newnewclasses), "files":jsonFormat[0], "classes":jsonFormat[1]);
@@ -263,7 +257,6 @@ public void testing(loc project, int clonetype) {
 	println();
 	println("Duration: <dur.hours>h <dur.minutes>m <dur.seconds>s <dur.milliseconds>ms");
 }
-
 
 tuple[map[str, value], map[str, value]] betterFormat(list[list[list[loc]]] cloneclasses) {
 	num ID = 0;
@@ -306,10 +299,6 @@ tuple[map[str, value], map[str, value]] betterFormat(list[list[list[loc]]] clone
 	return <jsonFormat1, jsonFormat2>;
 }
 
-
-
-
-
 clonepairs pairSequences(sequences bucket) {
 	clonepairs res = [];
 	
@@ -333,7 +322,6 @@ clonepairs pairSequences(sequences bucket) {
 	
 	return res;
 }
-
 
 sequences subsequencesFromStmts(list[Statement] n) {
 	sequences res = [];
@@ -396,12 +384,6 @@ sequences subsequencesFromDeclsType2(list[Declaration] n) {
 	
 	return res;
 }
-
-
-
-
-
-
 
 int nodeMass(node n) {
 	int count = 0;

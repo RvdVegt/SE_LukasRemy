@@ -30,7 +30,6 @@ public node normalizeNode(node ast) {
 		case \variable(_, a, b) => \variable("X", a, b)
 		case \variable(_, a) => \variable("X", a)
 		case \simpleName(_) => \simpleName("SimpleName")
-		// Maybe we need some more expressions
 		
 		// Types:
 		case Type _ => lang::java::jdt::m3::AST::short()
