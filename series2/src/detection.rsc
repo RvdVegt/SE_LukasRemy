@@ -28,7 +28,7 @@ alias classloc = list[set[list[loc]]];
 
 // |project://smallsql0.21_src/src|
 // |project://temp/src|
-public void testing(loc project, bool type2) {
+public void testing(loc project, int clonetype) {
 	datetime startTime = now();
 	set[Declaration] ast = createAstsFromEclipseProject(project, false);
 	map[int, map[int, sequences]] buckets = ();
@@ -40,7 +40,7 @@ public void testing(loc project, bool type2) {
 	visit(ast) {
 		case list[Statement] n: {
 			sequences subseqs;
-			if (type2) subseqs = subsequencesFromStmtsType2(n);
+			if (clonetype == 2) subseqs = subsequencesFromStmtsType2(n);
 			else subseqs = subsequencesFromStmts(n);
 			
 			for (sequence s <- subseqs) {
@@ -58,7 +58,7 @@ public void testing(loc project, bool type2) {
 		}
 		case list[Declaration] n: {
 			sequences subseqs;
-			if (type2) subseqs = subsequencesFromDeclsType2(n);
+			if (clonetype == 2) subseqs = subsequencesFromDeclsType2(n);
 			else subseqs = subsequencesFromDecls(n);
 			
 			for (sequence s <- subseqs) {
@@ -254,7 +254,7 @@ public void testing(loc project, bool type2) {
 	//println(jsonFormat[1]);
 	
 
-	map[str, value] res = ("totlines":total, "duplines":duplines, "dupperc":(duplines*100)/total, "totclasses":size(newnewclasses), "files":jsonFormat[0], "classes":jsonFormat[1]);
+	map[str, value] res = ("clonetype":clonetype, "totlines":total, "duplines":duplines, "dupperc":(duplines*100)/total, "totclasses":size(newnewclasses), "files":jsonFormat[0], "classes":jsonFormat[1]);
 	writeJSON(|project://series2/src/firstjson.json|, res);
 	
 

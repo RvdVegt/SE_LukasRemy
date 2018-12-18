@@ -1,0 +1,46 @@
+<div class="information data">
+	<div class="globaldata" style="padding: 8px 16px;">
+		<table style="width:256px;">
+			<tr>
+				<th>Clone type:</th>
+				<th>{{ data["clonetype"] }}</th>
+			</tr>
+			<tr>
+				<th># Total lines:</th>
+				<th>{{ data["totlines"] }} lines</th>
+			</tr>
+			<tr>
+				<th># Duplicate lines:</th>
+				<th>{{ data["duplines"] }} lines ({{ data["dupperc"] }}%)</th>
+			</tr>
+			<tr>
+				<th># Clones:</th>
+				<th>{{ noclones }} clones</th>
+			</tr>
+			<tr>
+				<th>Biggest Clone:</th>
+				<th>{{ biggest }} lines</th>
+			</tr>
+			<tr>
+				<th>Smallest Clone:</th>
+				<th>{{ smallest }} lines</th>
+			</tr>
+			<tr>
+				<th># Classes:</th>
+				<th>{{ data["totclasses"] }} classes</th>
+			</tr>
+			<tr>
+				<th>Smallest Class:</th>
+				<th>{{ smallestc }} clones</th>
+			</tr>
+			<tr>
+				<th>Biggest Class:</th>
+				<th>{{ biggestc }} clones</th>
+			</tr>
+
+		</table>
+	</div>
+</div>
+<div class="plots data">
+	{% include 'histogram.html' %}
+</div>

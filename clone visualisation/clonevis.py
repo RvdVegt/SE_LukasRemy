@@ -39,7 +39,7 @@ def showorderclasses():
 def duphistogram():
     dups = [v[1] for _, v in clonedata["classes"].items() for _ in v[0]]
     print(dups)
-    n, bins, patches = plt.hist(dups, bins=max(dups))
+    n, bins, patches = plt.hist(dups, bins=max(dups), color="blue")
     plt.xlabel("duplciate sequence size")
     plt.ylabel("Occurences")
     plt.title("Number of occurences of duplicate sequence sizes")
@@ -47,7 +47,14 @@ def duphistogram():
     plt.savefig(img, format='png')
     img.seek(0)
     plot_url = base64.b64encode(img.getvalue())
-    return render_template('histogram.html', data=clonedata, plot_url=plot_url)
+
+    biggestd = max([v[1] for k,v in clonedata["classes"].items()])
+    smallestd = min([v[1] for k,v in clonedata["classes"].items()])
+    noclones = sum([len(v[0]) for k,v in clonedata["classes"].items()])
+    biggestc = max([len(v[0]) for k,v in clonedata["classes"].items()])
+    smallestc = min([len(v[0]) for k,v in clonedata["classes"].items()])
+
+    return render_template('globaldata.html', data=clonedata, plot_url=plot_url, biggest=biggestd, smallest=smallestd, noclones=noclones, smallestc=smallestc, biggestc=biggestc)
 
 @app.route("/classlinesort")
 def classlinesort():

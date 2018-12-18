@@ -176,6 +176,16 @@ div.classfilelines {
 
 }
 
+div.globaldata tr {
+    border-bottom-style: solid;
+    border-bottom-color: #3399FF;
+    border-bottom-width: 1px;
+}
+
+div.globaldata th:first-child {
+    padding-right: 16px;
+}
+
 /* Source code CSS */
 div.srcline {
     max-width: 100vw;
@@ -245,9 +255,23 @@ div.srctooltipfile {
 
 }
 
+div.backbutton {
+    height: 32px;
+    background-color: #336699;
+    padding: 4px;
+    text-align: center;
+    color: #FFF;
+    width: 80px;
+    border-radius: 16px 4px;
+}
+
+div.backbutton:hover {
+    background-color: #3399FF;
+}
+
 div.srcdupheader {
-    height: 128px;
-    padding: 10px 16px;
+    height: 140px;
+    padding: 10px 10px;
     background: #333399;
     color: #FFF;
     z-index: 2;
@@ -261,4 +285,9 @@ div.stickyheader {
 
 div.stickyheader + .srccode {
     padding-top: 102px;
+}
+
+div.data {
+    display: inline-block;
+    vertical-align: top;
 }
