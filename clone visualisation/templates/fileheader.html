@@ -1,0 +1,12 @@
+<div id="scrollclasses">
+{% if data %}
+    {% if activeclass != -1 %}
+        {% for f in data["classes"][activeclass][0] %}
+            <div class="class classfile{% if f[0] == filename and data["files"][f[0]][2][f[1]]["linestart"] == linestart %} active{% endif %}" onclick='location.href="file?filepath={{f[0]}}&activeclass={{activeclass}}&linescroll={{data['files'][f[0]][2][f[1]]["linestart"]}}"'>
+                <div class="classfilename">{% if f[0]|length > 30 %}{{ f[0][0:5] }}...{{ f[0][-22:] }}{% else %}{{ f[0] }}{% endif %}</div>
+                <div class="classfilelines"><b>Lines: </b>{{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"]-1 }}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+</div>

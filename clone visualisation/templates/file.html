@@ -15,7 +15,7 @@
 
 <body>
     <div class="srcdupheader" id="srcdupheader">
-        
+        {% include 'fileheader.html' %}
     </div>
     {% set vars = {"lineno": 1} %}
     <div class="srccode">
@@ -23,7 +23,11 @@
         {% if b["linestart"] > vars.lineno %}
             <div class="srcblock">
             {% for l in range(vars.lineno, b["linestart"]) %}
+            {% if l == linescroll %}
+                <div id="linescroll" class="srcline">
+            {% else %}
                 <div class="srcline">
+            {% endif %}
                     <div class="srclineno">{{ l }}</div>
                     <div class="srclinecode">{{ filesrc[l-1] }}</div>
                 </div>
@@ -31,9 +35,13 @@
             </div>
         {% endif %}
 
-        <div class="srcblock">
+        <div class="srcblock dupset{% if b['classID'] == activeclass %} active{% endif %}" data-class="{{b['classID']}}" onclick="dupblockClick({{b['classID']}}, '{{filename}}', '{{b["linestart"]}}')">
             {% for l in range(b["linestart"], (b["linestart"]+b["linemass"])) %}
-            <div class="srcline dupset">
+            {% if l == linescroll %}
+            <div id="linescroll" class="srcline">
+            {% else %}
+            <div class="srcline">
+            {% endif %}
                 <div class="srclineno">{{ l }}</div>
                 <div class="srclinecode">{{ filesrc[l-1] }}</div>
             </div>
@@ -47,7 +55,7 @@
                     {% for f in data["classes"][b["classID"]][0] %}
                     {% if not (f[0] == filename and data["files"][f[0]][2][f[1]]["linestart"] == b["linestart"]) %}
                     <div class="srctooltipfile">
-                        <div class="srctooltipfilename">{% if f[0]|length > 25 %}{{ f[0][0:10] }}.....{{ f[0][-10:] }}{% else %}{{ f[0] }}{% endif %}</div>
+                        <div class="srctooltipfilename">{% if f[0]|length > 30 %}{{ f[0][0:5] }}...{{ f[0][-22:] }}{% else %}{{ f[0] }}{% endif %}</div>
                         <div class="srctooltipfilelines"><b>Lines: {{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"] - 1 }}</b></div>
                     </div>
                     {% endif %}
@@ -61,7 +69,11 @@
     {% if data["files"][filename][1] > vars.lineno %}
         <div class="srcblock">
             {% for l in range(vars.lineno, data["files"][filename][1]+1) %}
+            {% if l == linescroll %}
+            <div id="linescroll" class="srcline">
+            {% else %}
             <div class="srcline">
+            {% endif %}
                 <div class="srclineno">{{ l }}</div>
                 <div class="srclinecode">{{ filesrc[l-1] }}</div>
             </div>
@@ -76,7 +88,7 @@
 <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 
 <!--<script src="{{url_for('static', filename='data/test.json')}}"></script>-->
-<script src="{{url_for('static', filename='js/home.js')}}"></script>
+<script src="{{url_for('static', filename='js/file.js')}}"></script>
 
 </body>
 

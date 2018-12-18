@@ -1,12 +1,12 @@
-{% if data: %}
+{% if data %}
     {% for k, c in data["classes"].items() %}
         <div class="class">
             <div class="classsize"><b>Class size: {{ c[1] }}</b></div>
             <div class="classfilecount"><b>File count: {{c[0]|length}}</b></div>
             <div class="classfiles"><b>Files:</b>
             {% for f in c[0] %}
-                <div class="classfile" onclick='location.href="file?filepath={{f[0]}}"'>
-                    <div class="classfilename">{% if f[0]|length > 25 %}{{ f[0][0:10] }}.....{{ f[0][-10:] }}{% else %}{{ f[0] }}{% endif %}</div>
+                <div class="classfile" onclick='location.href="file?filepath={{f[0]}}&activeclass={{data["files"][f[0]][2][f[1]]["classID"]}}&linescroll={{data["files"][f[0]][2][f[1]]["linestart"]}}"'>
+                    <div class="classfilename">{% if f[0]|length > 30 %}{{ f[0][0:5] }}...{{ f[0][-22:] }}{% else %}{{ f[0] }}{% endif %}</div>
                     <div class="classfilelines"><b>Lines: </b>{{ data["files"][f[0]][2][f[1]]["linestart"] }}-{{ data["files"][f[0]][2][f[1]]["linestart"]+data["files"][f[0]][2][f[1]]["linemass"]-1 }}</div>
                 </div>
             {% endfor %}

@@ -1,7 +1,7 @@
-{% if data: %}
+{% if data %}
     {% for k, v in data["files"].items() %}
         <div class="file" onclick='location.href="file?filepath={{k}}"'>
-            <div class="filename">{% if k|length > 25 %}{{ k[0:10] }}.....{{ k[-10:] }}{% else %}{{ k }}{% endif %}</div>
+            <div class="filename">{% if k|length > 30 %}{{ k[0:5] }}...{{ k[-22:] }}{% else %}{{ k }}{% endif %}</div>
             <div class="filelines">
             {% set vars = {"lineno": 1} %}
             {% for l in v[2] | sort(attribute="linestart") %}

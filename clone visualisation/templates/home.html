@@ -14,25 +14,18 @@
 </head>
 
 <body>
+    <div id="mainheader">
+        <div class="headerbutton active" onclick='showOption(this, "/showfiles", "/showorderfiles")'>Files</div>
+        <div class="headerbutton" onclick='showOption(this, "/showclasses", "/showorderclasses")'>Classes</div>
+        <div class="headerbutton" onclick='showPlots(this, "/duphistogram")'>Plots</div>
+    </div>
     <div id="header">
-        <div class="sort">
-            <div class="sorttext">SORT BY:</div>
-            <div class="sortoptions"> 
-                <div id="dupsort" class="sortoption" data-order="1">dup <span id="dupsortorder" style="float:right;">-</span></div>
-                <div id="dupfilesort" class="sortoption" data-order="1">dup/line <span id="dupfilesortorder" style="float:right">-</span></div>
-            </div>
-        </div>
+        {% include 'filesorder.html' %}
     </div>
 
     <div id="content">
         <div id="scrollfiles">
             {% include 'filelist.html' %}
-        </div>
-    </div>
-
-    <div id="footer">
-        <div id="scrollclasses">
-            {% include 'classlist.html' %}
         </div>
     </div>
 

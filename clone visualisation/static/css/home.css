@@ -24,6 +24,28 @@
     position: relative;
 }
 
+div.headerbutton {
+    padding: 4px 8px;
+    display: inline-block;
+    height: 32px;
+    background-color: #333399;
+    color: #FFF;
+    min-width: 96px;
+    text-align: center;
+}
+
+div.headerbutton:hover {
+    background-color: #3399FF;
+}
+
+div.headerbutton.active {
+    background-color: #09AF00;
+}
+
+div.headerbutton.active:hover {
+    background-color: #3399FF;
+}
+
 /* File list CSS */
 #scrollfiles {
     overflow: auto;
@@ -137,6 +159,10 @@ div.classfile {
     white-space: normal;
 }
 
+div.classfile.active {
+    background-color: #09AF00;
+}
+
 div.classfile:hover {
     background-color: #3399FF;
     color: #FFF;
@@ -184,6 +210,10 @@ div.srcblock {
     position: relative;
 }
 
+.dupset.active {
+    background-color: #09AF00;
+}
+
 div.srcblock .srctooltip {
     display: none;
     background-color: rgba(85,85,85,0.6);
@@ -216,7 +246,7 @@ div.srctooltipfile {
 }
 
 div.srcdupheader {
-    min-height: 128px;
+    height: 128px;
     padding: 10px 16px;
     background: #333399;
     color: #FFF;
