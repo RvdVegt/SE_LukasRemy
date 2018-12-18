@@ -9,6 +9,10 @@ bool regression() {
 	tuple[bool, bool, bool, bool, bool] results = <testCase1(), testCase2(), testCase3(), testCase4(), testCase5()>;
 	writeFile(|project://series2/src/testResults/regression.txt|, results);
 	
+	println("Regression");
+	println("Old:" + prevResults);
+	println("New:" + "<results>");
+	
 	if (prevResults == "<results>") {
 		return true;
 	}
