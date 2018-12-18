@@ -68,7 +68,8 @@ void testing() {
 	}
 	findSequence(cloneclasses);
 	
-	//tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
+	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
+	
 	/*
 	println(jsonFormat[0]);
 	println();

@@ -76,30 +76,28 @@ $(document).ready(function() {
             );
     }
 
-    var srcTooltips = document.querySelectorAll(".srctooltip");
-    console.log(srcTooltips);
-    window.onmousemove = function(e) {
+    $("div.srcblock").mousemove(function(e) {
+        var tt = $(e.currentTarget).children(".srctooltip")[0];
+
         var x = (e.clientX + 10) + "px";
         var y = (e.clientY + 10) + "px";
-        for (var i = 0; i < srcTooltips.length; i++) {
-            var screenWidth = $(window).width();
-            var screenHeight = $(window).height();
-            var scrollHeight = $(window).scrollTop();
+        var screenWidth = $(window).width();
+        var screenHeight = $(window).height();
+        var scrollHeight = $(window).scrollTop();
 
 
-            if (e.clientX + 10 + $(srcTooltips[i]).width() >= screenWidth) {
-                srcTooltips[i].style.left = (screenWidth - $(srcTooltips[i]).width()) + "px";
-            } else {
-                srcTooltips[i].style.left = x;
-            }
-
-            if (e.clientY + 10 + $(srcTooltips[i]).height() >= screenHeight) {
-                srcTooltips[i].style.top = (screenHeight - $(srcTooltips[i]).height()) + "px";
-            } else {
-                srcTooltips[i].style.top = y;
-            }
+        if (e.clientX + 10 + $(tt).width() >= screenWidth) {
+            $(tt).css("left", (screenWidth - $(tt).width()) + "px");
+        } else {
+            $(tt).css("left", x);
         }
-    };
+
+        if (e.clientY + 10 + $(tt).height() >= screenHeight) {
+            $(tt).css("top", (screenHeight - $(tt).height()) + "px");
+        } else {
+            $(tt).css("top", y);
+        }
+    });
 
     // When the user scrolls the page, execute myFunction
     window.onscroll = function() {stickyHeader()};
