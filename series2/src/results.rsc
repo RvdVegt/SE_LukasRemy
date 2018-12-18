@@ -24,7 +24,7 @@ int cast(int x) = x;
 
 void testing() {
 	datetime startTime = now();
-	set[Declaration] ast = createAstsFromEclipseProject(|project://smallsql0.21_src/src|, false);
+	set[Declaration] ast = createAstsFromEclipseProject(|project://temp/src|, false);
 	list[node] subtrees = getAllSubtrees(ast);
 	
 	map[int, list[tuple[node, loc]]] buckets = ();
@@ -66,23 +66,24 @@ void testing() {
 		cloneclasses += cc;
 		
 	}
+	findSequence(cloneclasses);
 	
+	//tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
 	/*
-	tuple[map[str, value], map[str, value]] jsonFormat = betterFormat(cloneclasses); 
 	println(jsonFormat[0]);
 	println();
 	println(jsonFormat[1]);
 	*/
 
-	map[str, value] res = ("files":jsonFormat[0], "classes":jsonFormat[1]);
-	writeJSON(|project://series2/src/firstjson.json|, res);
+	//map[str, value] res = ("files":jsonFormat[0], "classes":jsonFormat[1]);
+	//writeJSON(|project://series2/src/firstjson.json|, res);
 	
 	/*
 	for (i <- cloneclasses) {
 		println(i);
 		println("");
-	}*/
-	println(size(cloneclasses));
+	}
+	println(size(cloneclasses));*/
 	
 	datetime endTime = now();
 	Duration dur = endTime - startTime;
@@ -106,11 +107,73 @@ void testing() {
 
 //loop through all cloneclasses, take the first dup and check with all duplication out other cloneclasses
 //if it is following the dup, then check if this holds for all dups in the two cloneclasses, fast check same size
-/*list[list[tuple[node, loc]]] findSequence(list[list[tuple[node, loc]]] cloneclasses) {
-	for (class <- clone) {
+list[list[tuple[node, loc]]] findSequence(list[list[tuple[node, loc]]] cloneclasses) {
+	list[list[list[tuple[node, loc]]]] merge = [];
+
+	for (list[tuple[node, loc]] class <- cloneclasses) {
+		for (list[tuple[node, loc]] class2 <- cloneclasses) {
+			if (class == class2 || size(class) != size(class2)) {
+				break;
+			}
+			
+			list[tuple[node, loc]] checkedDup = [];
+			for (tuple[node, loc] dup <- class) {
+				bool found = false;
+				for (dup2 <- class2) {
+					if (!(dup2 in checkedDup) && dup[1].path == dup2[1].path && (dup2[1].end.line + 1) == dup[1].begin.line) {
+						found = true;
+						checkedDup += dup2;
+					}
+				}
+				
+				if (!found) {
+					break;
+				}
+			}
+			
+			if (size(checkedDup) == size(class2)) {
+				merge += [[class, class2]];
+			}
+		}
+	}
 	
-	} 
-}*/
+	bool merged;
+	if (size(merge) > 1) {
+		merged = true;
+	}
+	else {
+		merged = false;
+	}
+	
+	while (merged) {
+		merged = false;
+		list[list[list[tuple[node, loc]]]] mergeTemp = [];
+		list[int] index = [0..(size(merge)-1)];
+		for (i <- index) {
+			if (head(merge[i]) == tail(merge[(i+1)])[0]) {
+				list[list[tuple[node, loc]]] newClass = [];
+				newClass += merge[(i+1)];
+				newClass += [merge[i][-1]];
+				mergeTemp += [newClass];
+				merged = true;
+			}
+			else {
+				mergeTemp += [merge[i]];
+				if (i == tail(index)[0]) {
+					mergeTemp += [merge[(i+1)]];
+				}
+			}
+		}
+		if (merged) {
+			merge = mergeTemp;
+		}
+	}
+	for (p <- merge) {
+		println();
+		println(p);
+	}
+	return merge[0];
+}
 
 tuple[map[str, value], map[str, value]] betterFormat(list[list[tuple[node, loc]]] cloneclasses) {
 	num ID = 0;
@@ -165,9 +228,11 @@ list[list[tuple[node, loc]]] compare(list[tuple[node, loc]] bucket, map[str, lis
 				for (i <- coords) {
 					if (i[0] < subtree[1].begin.line && i[1] >= subtree[1].end.line) {
 						haveToCheck = false;
+						break;
 					}
 					else if (i[0] == subtree[1].begin.line && i[2] < subtree[1].begin.column) {
 						haveToCheck = false;
+						break;
 					}
 				}
 			}

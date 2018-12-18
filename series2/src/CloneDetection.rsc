@@ -85,8 +85,8 @@ public void testing(loc project) {
 				
 				for (int c <- [0..size(classes)]) {
 					if (any(x <- pair, x in classes[c])) {
-						classes[c] += pair[0];
-						classes[c] += pair[1];
+						classes[c] += {pair[0]};
+						classes[c] += {pair[1]};
 						break;
 					}
 					if (c == size(classes)-1) {
