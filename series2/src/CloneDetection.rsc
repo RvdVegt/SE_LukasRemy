@@ -210,6 +210,7 @@ public void testing(loc project) {
 	int pairSize = size(pairs);
 	int total = pairSize;
 	int i=0;
+	/*
 	for (str k <- sort(domain(r))) {
 		int y = 0;
 		while (y < size(r[k])) {
@@ -329,20 +330,20 @@ public void testing(loc project) {
 			bool found = false;
 			clonepair newpair = <[], []>;
 			for (int l <- [0..size(pair[0])]) {
-				if (found && (pair[0][l].begin.line in dups[p0f] || pair[0][l].end.line in dups[p0f]) || (pair[1][l].begin.line in dups[p1f] || pair[1][l].end.line in dups[p1f])) {
+				if ((pair[0][l].begin.line notin dups[p0f] && pair[0][l].end.line notin dups[p0f]) && (pair[1][l].begin.line notin dups[p1f] && pair[1][l].end.line notin dups[p1f])) {
+					newpair[0] = slice(pair[0], l, size(pair[0])-l);
+					newpair[1] = slice(pair[1], l, size(pair[1])-l);
+					pair[0] = slice(pair[0], 0, l+1);
+					pair[1] = slice(pair[1], 0, l+1);
 					break;
 				}
-				if ((pair[0][l].begin.line notin dups[p0f] && pair[0][l].end.line notin dups[p0f]) || (pair[1][l].begin.line notin dups[p1f] && pair[1][l].end.line notin dups[p1f])) {
-					newpair[0] = newpair[0] + pair[0][l];
-					newpair[1] = newpair[1] + pair[1][l];
-					found = true;
-				}
 			}
-			pair[0] = newpair[0];
-			pair[1] = newpair[1];
-			if (size(pair[0]) == 0) {
+			
+			if (size(pair[0]) == 0 && size(newpair[0]) > 0) {
 				//pairs = delete(pairs, i);
-				r[k] = delete(r[k], y);
+				r[k][y][0] = newpair;
+				i += 1;
+				y += 1;
 				//println("del");
 				total -= 1;
 				remPairs += 1;
@@ -356,11 +357,16 @@ public void testing(loc project) {
 			
 			// Replace pair with new sequence and increase i to get to next pair.
 			r[k][y][0] = pair;
+			if (size(newpair[0]) > 0) {
+				r[k] = r[k] + [<newpair, 0>];
+				r[k] = sort(r[k], bool(tuple[clonepair, int] a, tuple[clonepair, int] b) { return a[0][0][0].begin.line < b[0][0][0].begin.line || (a[0][0][0].begin.line == b[0][0][0].begin.line && a[0][1][0].path < b[0][1][0].path); });
+			}
 			i += 1;
 			y += 1;
 			print("<(i*100)/total>%\r");
 		}
 	}
+	*/
 	println();
 	clonepairs new = [];
 	for (str k <- r) {
