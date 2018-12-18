@@ -26,7 +26,7 @@ alias cloneclass = set[list[loc]];
 alias cloneclasses = list[cloneclass];
 alias classloc = list[set[list[loc]]];
 
-public void testing(loc project, int clonetype) {
+public tuple[int, int] testing(loc project, int clonetype) {
 	datetime startTime = now();
 	set[Declaration] ast = createAstsFromEclipseProject(project, false);
 	map[int, map[int, sequences]] buckets = ();
@@ -256,6 +256,8 @@ public void testing(loc project, int clonetype) {
 	Duration dur = endTime - startTime;
 	println();
 	println("Duration: <dur.hours>h <dur.minutes>m <dur.seconds>s <dur.milliseconds>ms");
+	
+	return <size(newnewclasses), duplines>;
 }
 
 tuple[map[str, value], map[str, value]] betterFormat(list[list[list[loc]]] cloneclasses) {
